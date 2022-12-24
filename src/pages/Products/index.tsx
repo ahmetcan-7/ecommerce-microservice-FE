@@ -13,11 +13,8 @@ function Products() {
     data,
     isFetching,
     isFetchingNextPage,
-    isFetchingPreviousPage,
     fetchNextPage,
-    fetchPreviousPage,
     hasNextPage,
-    hasPreviousPage,
   } = useInfiniteQuery(
     ["projects"],
     ({ pageParam = 0 }) =>
@@ -63,9 +60,9 @@ function Products() {
           {data?.pages.map((page, k) => (
             <React.Fragment key={k}>
               <Grid container spacing={2} xs={12}>
-                {page.map((product, i) => (
+                {page.map((product) => (
                   <Grid item xs={12} sm={6} md={4} lg={3}>
-                    <Card key={i} product={product} />
+                    <Card key={product.id} product={product} />
                   </Grid>
                 ))}
               </Grid>

@@ -1,15 +1,15 @@
 export interface ProductParam {
-  size: Number;
-  page: Number;
-  filter: String;
-  sort: String;
-  searchTerm: String;
+  size: number;
+  page: number;
+  filter: string;
+  sort: string;
+  searchTerm: string;
 }
 
 export interface Product {
-  id: String;
-  name: String;
-  unitPrice: Number;
-  categoryName: String;
-  description: String;
+  id: string;
+  name: string;
+  unitPrice: number;
+  categoryName: string;
+  description: string;
 }

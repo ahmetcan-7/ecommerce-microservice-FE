@@ -1,6 +1,9 @@
 import * as yup from "yup";
+import { RegisterForm } from "../types/user";
 
 const validationSchema = yup.object({
+  firstName: yup.string().required("First name is required"),
+  lastName: yup.string().required("Last name is required"),
   email: yup
     .string()
     .email("Enter a valid email")
@@ -15,10 +18,12 @@ const validationSchema = yup.object({
     .required("Password confirm is required"),
 });
 
-const initialValues = {
+const initialValues: RegisterForm = {
   email: "",
   password: "",
   passwordConfirm: "",
+  firstName: "",
+  lastName: "",
 };
 
 export default {

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useInfiniteQuery } from "react-query";
 import { useInView } from "react-intersection-observer";
 import { ProductApi } from "../../api/productApi";
-import { PRODUCT_PARAM } from "../../constants/productConstant";
+import { PRODUCT_PARAM } from "../../constants/product";
 import Card from "../../components/Card";
 import { Grid } from "@material-ui/core";
 function Products() {

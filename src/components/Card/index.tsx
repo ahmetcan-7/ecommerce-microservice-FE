@@ -10,7 +10,7 @@ import {
   Card as MuiCard,
   Box,
 } from "@mui/material";
-import { Product } from "../../types/productType";
+import { Product } from "../../types/product";
 
 type CardProps = {
   product: Product;

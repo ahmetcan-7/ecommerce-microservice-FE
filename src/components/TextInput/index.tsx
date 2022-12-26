@@ -21,7 +21,7 @@ function TextInput({
       name={name}
       label={label}
       margin={margin}
-      value={form.values?.[name]}
+      value={form.values?.[name] ?? ""}
       onChange={form.handleChange}
       onBlur={form.handleBlur}
       error={form.touched?.[name] && Boolean(form.errors?.[name])}

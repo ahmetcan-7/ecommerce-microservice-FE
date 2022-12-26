@@ -2,8 +2,8 @@ import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import DashboardLayout from "./components/DashboardLayout";
 import NotFound from "./pages/NotFound";
 import Products from "./pages/Products";
-import Signin from "./pages/Signin";
-import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function App() {
   return (
@@ -11,8 +11,8 @@ function App() {
       <Routes>
         <Route path="/" element={<DashboardLayout />}>
           <Route index element={<Products />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/signin" element={<Signin />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

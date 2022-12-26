@@ -1,15 +1,14 @@
 import axios from "axios";
-import { PRODUCT_PARAM } from "../constants/productConstant";
-import { Product, ProductParam } from "../types/productType";
+import { PRODUCT_PARAM } from "../constants/product";
+import { Product, ProductParam } from "../types/product";
+import { api } from "./axios";
 
-const getProducts = async (
-  params: ProductParam = { ...PRODUCT_PARAM }
-): Promise<Product[]> => {
-  const response = await axios.get("/v1/products", {
+const getProducts = async (params: ProductParam = { ...PRODUCT_PARAM }) => {
+  const { data } = await api.get<Product[]>("/v1/products", {
     params,
   });
 
-  return response.data;
+  return data;
 };
 
 export const ProductApi = {

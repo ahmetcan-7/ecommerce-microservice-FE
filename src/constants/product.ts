@@ -1,4 +1,4 @@
-import { ProductParam } from "../types/productType";
+import { ProductParam } from "../types/product";
 
 export const PRODUCT_PARAM: ProductParam = {
   size: 4,

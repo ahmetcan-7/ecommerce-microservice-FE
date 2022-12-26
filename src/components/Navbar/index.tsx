@@ -13,11 +13,21 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { styles } from "./styles";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "../../store";
+import { useNavigate } from "react-router-dom";
+import { logout, userMe } from "../../store/actions/userAction";
+import { showError } from "../../utils/showError";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const { data, loading, error } = useSelector((state: AppState) => state.user);
+
+  const dispatch = useDispatch<any>();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -36,9 +46,22 @@ const Navbar = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (setting: string) => {
+    switch (setting) {
+      case "Logout":
+        dispatch(logout());
+        break;
+    }
     setAnchorElUser(null);
   };
+
+  React.useEffect(() => {
+    error && showError(error);
+  }, [error]);
+
+  React.useEffect(() => {
+    dispatch(userMe());
+  }, []);
 
   return (
     <AppBar position="static" sx={styles.appBar}>
@@ -48,8 +71,7 @@ const Navbar = () => {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
+            onClick={() => navigate("/")}
             sx={styles.header}
           >
             LOGO
@@ -93,8 +115,7 @@ const Navbar = () => {
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href=""
+            onClick={() => navigate("/")}
             sx={styles.headerMobile}
           >
             LOGO
@@ -106,36 +127,61 @@ const Navbar = () => {
               </Button>
             ))}
           </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+          {data.isLogedIn ? (
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem
+                    key={setting}
+                    onClick={() => handleCloseUserMenu(setting)}
+                  >
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          ) : (
+            <Box sx={{ display: "flex" }}>
+              <Button
+                color="secondary"
+                variant="contained"
+                fullWidth
+                onClick={() => navigate("/login")}
+                sx={{ minWidth: "6rem" }}
+              >
+                Login
+              </Button>
+              <Button
+                color="secondary"
+                variant="contained"
+                fullWidth
+                onClick={() => navigate("/register")}
+                sx={{ marginLeft: "0.5rem", minWidth: "6rem" }}
+              >
+                Register
+              </Button>
+            </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

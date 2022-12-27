@@ -18,14 +18,28 @@ import { AppState } from "../../store";
 import { useNavigate } from "react-router-dom";
 import { logout, userMe } from "../../store/actions/userAction";
 import { showError } from "../../utils/showError";
+import Badge from "@mui/material/Badge";
+import { styled } from "@mui/material/styles";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    right: -3,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: "0 4px",
+  },
+}));
 
 const Navbar = () => {
   const navigate = useNavigate();
 
   const { data, loading, error } = useSelector((state: AppState) => state.user);
+
+  const carts = useSelector((state: AppState) => state.cart);
 
   const dispatch = useDispatch<any>();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -123,6 +137,15 @@ const Navbar = () => {
               </Button>
             ))}
           </Box>
+          <IconButton aria-label="cart" onClick={() => navigate("/cart")}>
+            {carts.length > 0 ? (
+              <StyledBadge badgeContent={carts.length} color="primary">
+                <ShoppingCartIcon color="secondary" />
+              </StyledBadge>
+            ) : (
+              <ShoppingCartIcon color="secondary" />
+            )}
+          </IconButton>
           {data.isLogedIn ? (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">

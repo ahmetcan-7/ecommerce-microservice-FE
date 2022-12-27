@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { refreshToken, userMe } from "./store/actions/userAction";
 import { AppState } from "./store";
 import Loader from "./components/Loader";
+import Cart from "./pages/Cart";
 
 function App() {
   const dispatch = useDispatch<any>();
@@ -20,10 +21,6 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("access-token")) {
       dispatch(userMe());
-
-      // else if (!data.isRefreshTokenExpired && !data.isAccessTokenExpired) {
-      //   dispatch(userMe())
-      // }
     }
   }, []);
 
@@ -47,6 +44,13 @@ function App() {
             }
           >
             <Route path="/admin" element={<Admin />} />
+          </Route>
+          <Route
+            element={
+              <RequireAuth allowedRoles={["ROLE_USER"]} roles={data.roles} />
+            }
+          >
+            <Route path="/cart" element={<Cart />} />
           </Route>
         </Route>
 

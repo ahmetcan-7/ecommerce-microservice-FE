@@ -7,10 +7,8 @@ import loginForm from "../../forms/loginForm";
 import { AppState } from "../../store";
 import { login } from "../../store/actions/userAction";
 import { useEffect } from "react";
-import { showError } from "../../utils/showError";
 import { showSuccess } from "../../utils/showSuccess";
 import { useNavigate } from "react-router-dom";
-import { useEffectOnlyOnUpdate } from "../../hooks/useEffectOnlyOnUpdate";
 
 function Login() {
   const dispatch = useDispatch<any>();

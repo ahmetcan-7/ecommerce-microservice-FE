@@ -21,7 +21,7 @@ const queryClient = new QueryClient();
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
 root.render(
-  <React.StrictMode>
+  <>
     <CssBaseline />
     <ToastContainer />
     <ThemeProvider theme={theme}>
@@ -31,7 +31,7 @@ root.render(
         </Provider>
       </QueryClientProvider>
     </ThemeProvider>
-  </React.StrictMode>
+  </>
 );
 
 // If you want to start measuring performance in your app, pass a function

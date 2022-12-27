@@ -59,10 +59,6 @@ const Navbar = () => {
     error && showError(error);
   }, [error]);
 
-  React.useEffect(() => {
-    dispatch(userMe());
-  }, []);
-
   return (
     <AppBar position="static" sx={styles.appBar}>
       <Container maxWidth="xl">

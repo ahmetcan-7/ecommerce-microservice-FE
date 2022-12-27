@@ -22,11 +22,16 @@ export interface RegisterForm {
   lastName: string;
 }
 
-export interface Login {
+export interface Token {
   accessToken: string;
   refreshToken: string;
+}
+
+export interface Login extends Token {
   role: string;
 }
+
+export type RefreshToken = Token;
 
 interface LOGIN_START {
   type: "LOGIN_START";
@@ -52,16 +57,19 @@ interface USER_SUCCESS {
 
 interface USER_ERROR {
   type: "USER_ERROR";
-  payload: string;
+}
+
+interface REFRESHTOKEN_ERROR {
+  type: "REFRESH_TOKEN_ERROR";
 }
 
 interface LOGOUT {
   type: "LOGOUT";
 }
 
-export type UserReducer = User & {
+export interface UserReducer extends User {
   isLogedIn: boolean;
-};
+}
 
 export type UserAction =
   | LOGIN_START
@@ -70,7 +78,8 @@ export type UserAction =
   | LOGOUT
   | USER_START
   | USER_SUCCESS
-  | USER_ERROR;
+  | USER_ERROR
+  | REFRESHTOKEN_ERROR;
 
 export type UserState = State<UserReducer>;
 

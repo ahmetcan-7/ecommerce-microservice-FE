@@ -1,21 +1,22 @@
-import { Axios, AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { api } from "../../api/axios";
 import { UserError } from "../../types/error";
 import {
   Login,
   LoginForm,
-  RegisterForm,
+  RefreshToken,
   User,
   UserDispatch,
 } from "../../types/user";
+import { removeToken, setToken } from "../../utils/token";
 
 export const login = (creds: LoginForm) => async (dispatch: UserDispatch) => {
   dispatch({ type: "LOGIN_START" });
   try {
     const { data } = await api.post<Login>("/user/login", creds);
-    localStorage.setItem("access-token", "Bearer " + data.accessToken);
-    localStorage.setItem("refresh-token", "Bearer " + data.refreshToken);
+    setToken(data);
     dispatch({ type: "LOGIN_SUCCESS" });
+    dispatch(userMe());
   } catch (error) {
     const err = error as AxiosError<UserError>;
     dispatch({
@@ -26,8 +27,7 @@ export const login = (creds: LoginForm) => async (dispatch: UserDispatch) => {
 };
 
 export const logout = () => (dispatch: UserDispatch) => {
-  localStorage.removeItem("access-token");
-  localStorage.removeItem("refresh-token");
+  removeToken();
   dispatch({ type: "LOGOUT" });
 };
 
@@ -37,10 +37,22 @@ export const userMe = () => async (dispatch: UserDispatch) => {
     const { data } = await api.get<User>("/user/me");
     dispatch({ type: "USER_SUCCESS", payload: data });
   } catch (error) {
-    const err = error as AxiosError<UserError>;
-    dispatch({
-      type: "USER_ERROR",
-      payload: err.response?.data?.message ?? "Something went wrong",
+    dispatch({ type: "USER_ERROR" });
+    dispatch(refreshToken());
+  }
+};
+
+export const refreshToken = () => async (dispatch: UserDispatch) => {
+  try {
+    const { data } = await api.get<RefreshToken>("/user/token/refresh", {
+      headers: {
+        "refresh-token": localStorage.getItem("refresh-token"),
+      },
     });
+    setToken(data);
+    dispatch(userMe());
+  } catch (error) {
+    removeToken();
+    dispatch({ type: "REFRESH_TOKEN_ERROR" });
   }
 };

@@ -21,11 +21,32 @@ const userReducer = (state: UserState = defaultState, action: UserAction) => {
       return {
         ...state,
         loading: false,
-        data: { ...state.data, ...action.payload } as UserReducer,
+        data: {
+          ...state.data,
+          ...action.payload,
+          isLogedIn: true,
+        } as UserReducer,
       };
     case "LOGIN_ERROR":
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        data: { isLogedIn: false } as UserReducer,
+      };
     case "USER_ERROR":
-      return { ...state, loading: false, error: action.payload };
+      return {
+        ...state,
+        loading: false,
+      };
+    case "REFRESH_TOKEN_ERROR":
+      return {
+        ...state,
+        loading: false,
+        data: {
+          isLogedIn: false,
+        } as UserReducer,
+      };
     case "LOGOUT":
       return { ...state, data: { isLogedIn: false } as UserReducer };
     default:

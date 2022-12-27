@@ -23,13 +23,26 @@ import {
   increaseProductQuantity,
   removeFromCart,
 } from "../../store/actions/cartAction";
+import { getFromLocalStorage } from "../../utils/localStorage";
+import { Cart } from "../../types/cart";
 
 type CardProps = {
   product: Product;
 };
+
 const Card = ({ product }: CardProps) => {
+  const getCartItemQuantity = (id: string) => {
+    const persist = getFromLocalStorage("persist:root");
+    const items = JSON.parse(persist.cart) as Cart[];
+
+    const findedItem = items?.find((item) => item.product.id === id);
+    return findedItem?.quantity ?? 0;
+  };
+
   const dispatch = useDispatch<any>();
-  const [quantity, setQuantity] = useState<number>(0);
+  const [quantity, setQuantity] = useState<number>(
+    getCartItemQuantity(product.id)
+  );
 
   const handleAdd = () => {
     setQuantity((prev) => prev + 1);

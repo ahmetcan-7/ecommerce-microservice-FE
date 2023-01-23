@@ -1,13 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useInfiniteQuery } from "react-query";
 import { useInView } from "react-intersection-observer";
 import { ProductApi } from "../../api/productApi";
 import { PRODUCT_PARAM } from "../../constants/product";
 import Card from "../../components/Card";
-import { Grid } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
+import SearchBar from "../../components/SearchBar";
+
 function Products() {
   const { ref, inView } = useInView();
+  const [searchValue, setSearchValue] = useState("");
 
+  const searchTerm = searchValue.length >= 3 ? searchValue : "";
   const {
     status,
     data,
@@ -16,9 +20,13 @@ function Products() {
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery(
-    ["projects"],
+    ["projects", searchTerm],
     ({ pageParam = 0 }) =>
-      ProductApi.getProducts({ ...PRODUCT_PARAM, page: pageParam }),
+      ProductApi.getProducts({
+        ...PRODUCT_PARAM,
+        page: pageParam,
+        searchTerm: searchTerm,
+      }),
     {
       getNextPageParam: (lastGroup, allGroups) => {
         const morePageExist = lastGroup?.length === PRODUCT_PARAM.size;
@@ -38,25 +46,19 @@ function Products() {
 
   return (
     <div>
-      <h1>Products</h1>
+      <Typography variant="h2" align="center">
+        Products
+      </Typography>
+      <SearchBar
+        onChangeSearchValue={setSearchValue}
+        searchValue={searchValue}
+      />
       {status === "loading" ? (
         <p>Loading...</p>
       ) : status === "error" ? (
         <span>Error: Something went wrong!!</span>
       ) : (
         <>
-          {/* <div>
-            <button
-              onClick={() => fetchPreviousPage()}
-              disabled={!hasPreviousPage || isFetchingPreviousPage}
-            >
-              {isFetchingPreviousPage
-                ? "Loading more..."
-                : hasPreviousPage
-                ? "Load Older"
-                : "Nothing more to load"}
-            </button>
-          </div> */}
           {data?.pages.map((page, k) => (
             <React.Fragment key={k}>
               <Grid container spacing={2} xs={12}>

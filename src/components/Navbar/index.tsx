@@ -21,6 +21,7 @@ import { showError } from "../../utils/showError";
 import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { calculateCountOfCartItems } from "../../utils/cart";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -37,7 +38,11 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 const Navbar = () => {
   const navigate = useNavigate();
 
-  const { data, loading, error } = useSelector((state: AppState) => state.user);
+  const {
+    data: user,
+    loading,
+    error,
+  } = useSelector((state: AppState) => state.user);
 
   const carts = useSelector((state: AppState) => state.cart);
 
@@ -139,18 +144,27 @@ const Navbar = () => {
           </Box>
           <IconButton aria-label="cart" onClick={() => navigate("/cart")}>
             {carts.length > 0 ? (
-              <StyledBadge badgeContent={carts.length} color="primary">
+              <StyledBadge
+                badgeContent={calculateCountOfCartItems(carts)}
+                color="primary"
+              >
                 <ShoppingCartIcon color="secondary" />
               </StyledBadge>
             ) : (
               <ShoppingCartIcon color="secondary" />
             )}
           </IconButton>
-          {data.isLogedIn ? (
+          {user.isLogedIn ? (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar
+                    alt={user.firstName + user.lastName}
+                    src="/static/images/avatar/2.jpg"
+                  >
+                    {user.firstName.at(0)?.toUpperCase()! +
+                      user.lastName.at(0)?.toUpperCase()}
+                  </Avatar>
                 </IconButton>
               </Tooltip>
               <Menu
@@ -170,12 +184,24 @@ const Navbar = () => {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem
-                    key={setting}
-                    onClick={() => handleCloseUserMenu(setting)}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
                   >
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
+                    <MenuItem
+                      key={setting}
+                      onClick={() => handleCloseUserMenu(setting)}
+                    >
+                      <Typography
+                        textAlign="center"
+                        sx={{ padding: "0.5rem 1rem" }}
+                      >
+                        {setting}{" "}
+                      </Typography>
+                    </MenuItem>
+                  </Box>
                 ))}
               </Menu>
             </Box>

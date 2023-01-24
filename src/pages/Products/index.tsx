@@ -6,12 +6,18 @@ import { PRODUCT_PARAM } from "../../constants/product";
 import Card from "../../components/Card";
 import { Grid, Typography } from "@material-ui/core";
 import SearchBar from "../../components/SearchBar";
+import { CategoryApi } from "../../api/categoryApi";
+import { Category } from "../../types/category";
 
 function Products() {
   const { ref, inView } = useInView();
   const [searchValue, setSearchValue] = useState("");
+  const [sortBy, setSortBy] = useState("DATE_DESC");
+  const [filter, setFilter] = useState("");
+  const [categories, setCategories] = useState<Category[]>([]);
 
   const searchTerm = searchValue.length >= 3 ? searchValue : "";
+
   const {
     status,
     data,
@@ -20,12 +26,14 @@ function Products() {
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery(
-    ["projects", searchTerm],
+    ["projects", searchTerm, sortBy, filter],
     ({ pageParam = 0 }) =>
       ProductApi.getProducts({
         ...PRODUCT_PARAM,
         page: pageParam,
         searchTerm: searchTerm,
+        sort: sortBy,
+        filter: filter,
       }),
     {
       getNextPageParam: (lastGroup, allGroups) => {
@@ -44,6 +52,15 @@ function Products() {
     }
   }, [inView]);
 
+  useEffect(() => {
+    getAllCategories();
+  }, []);
+
+  const getAllCategories = async () => {
+    const categories = await CategoryApi.getCategories();
+    setCategories(categories);
+  };
+
   return (
     <div>
       <Typography variant="h2" align="center">
@@ -52,6 +69,11 @@ function Products() {
       <SearchBar
         onChangeSearchValue={setSearchValue}
         searchValue={searchValue}
+        filter={filter}
+        onChangeFilter={setFilter}
+        sortBy={sortBy}
+        onChangeSortBy={setSortBy}
+        categories={categories}
       />
       {status === "loading" ? (
         <p>Loading...</p>

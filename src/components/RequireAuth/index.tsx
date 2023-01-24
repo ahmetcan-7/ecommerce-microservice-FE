@@ -8,18 +8,17 @@ interface AuthProps {
 function RequireAuth({ allowedRoles, roles }: AuthProps) {
   const location = useLocation();
 
+  console.log("role", roles);
   let isPermitted = roles?.find((role) => allowedRoles?.includes(role));
 
-  if (roles === undefined) {
-    return null;
+  const token = localStorage.getItem("access-token");
+
+  if (!token) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   if (!isPermitted) {
-    return roles ? (
-      <Navigate to="/unauthorized" state={{ from: location }} replace />
-    ) : (
-      <Navigate to="/login" state={{ from: location }} replace />
-    );
+    return <Navigate to="/unauthorized" state={{ from: location }} replace />;
   }
 
   return <Outlet />;

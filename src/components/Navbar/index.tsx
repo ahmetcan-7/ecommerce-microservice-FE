@@ -11,7 +11,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import { styles } from "./styles";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../store";
@@ -82,7 +81,6 @@ const Navbar = () => {
     <AppBar position="static" sx={styles.appBar}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={styles.icon} />
           <Typography
             variant="h6"
             noWrap
@@ -126,7 +124,6 @@ const Navbar = () => {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={styles.iconMobile} />
           <Typography
             variant="h5"
             noWrap
@@ -148,14 +145,14 @@ const Navbar = () => {
                 badgeContent={calculateCountOfCartItems(carts)}
                 color="primary"
               >
-                <ShoppingCartIcon color="secondary" />
+                <ShoppingCartIcon sx={{ color: "#FAF7ED" }} />
               </StyledBadge>
             ) : (
-              <ShoppingCartIcon color="secondary" />
+              <ShoppingCartIcon sx={{ color: "#FAF7ED" }} />
             )}
           </IconButton>
           {user.isLogedIn ? (
-            <Box sx={{ flexGrow: 0 }}>
+            <Box sx={{ flexGrow: 0, margin: "0 1rem" }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar

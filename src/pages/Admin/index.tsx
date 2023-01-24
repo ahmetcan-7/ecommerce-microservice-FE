@@ -1,10 +1,12 @@
-import React from "react";
+import { Typography } from "@material-ui/core";
 
 function Admin() {
   return (
-    <>
-      <div>Admin page </div>
-    </>
+    <div>
+      <Typography variant="h2" align="center">
+        Admin
+      </Typography>
+    </div>
   );
 }
 

@@ -1,16 +1,24 @@
+import { Box, Button, Typography } from "@material-ui/core";
 import React from "react";
-import { Box, Button, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { styles } from "./styles";
 function Unauthorized() {
   const navigate = useNavigate();
 
   return (
-    <Box sx={styles.box}>
-      <Typography variant="h1" color={"white"}>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+        minHeight: "100vh",
+      }}
+    >
+      <Typography variant="h1" color="primary">
         401
       </Typography>
-      <Typography variant="h6" color={"white"}>
+      <Typography variant="h6" color="primary">
         You don't have permission to access this page
       </Typography>
 

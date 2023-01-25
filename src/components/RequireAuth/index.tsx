@@ -13,13 +13,13 @@ function RequireAuth({ allowedRoles, roles }: AuthProps) {
 
   const token = localStorage.getItem("access-token");
 
-  // if (!token) {
-  //   return <Navigate to="/login" state={{ from: location }} replace />;
-  // }
+  if (!token) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
 
-  // if (!isPermitted) {
-  //   return <Navigate to="/unauthorized" state={{ from: location }} replace />;
-  // }
+  if (!isPermitted) {
+    return <Navigate to="/unauthorized" state={{ from: location }} replace />;
+  }
 
   return <Outlet />;
 }

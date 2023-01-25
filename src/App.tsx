@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { refreshToken, userMe } from "./store/actions/userAction";
 import { AppState } from "./store";
 import Loader from "./components/Loader";
+import Home from "./pages/Admin/Home";
 
 function App() {
   const dispatch = useDispatch<any>();
@@ -30,7 +31,9 @@ function App() {
 
   const Admin = React.lazy(() => import("./pages/Admin"));
   const Cart = React.lazy(() => import("./pages/Cart"));
-
+  const AdminProducts = React.lazy(() => import("./pages/Admin/Products"));
+  const AdminOrders = React.lazy(() => import("./pages/Admin/Orders"));
+  const AdminCategories = React.lazy(() => import("./pages/Admin/Categories"));
   return (
     <Router>
       <Suspense fallback={<Loader />}>
@@ -47,7 +50,12 @@ function App() {
                 />
               }
             >
-              <Route path="admin" element={<Admin />} />
+              <Route path="admin" element={<Admin />}>
+                <Route index element={<Home />} />
+                <Route path="products" element={<AdminProducts />} />
+                <Route path="orders" element={<AdminOrders />} />
+                <Route path="categories" element={<AdminCategories />} />
+              </Route>
             </Route>
             <Route
               element={

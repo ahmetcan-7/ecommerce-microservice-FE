@@ -8,7 +8,6 @@ interface AuthProps {
 function RequireAuth({ allowedRoles, roles }: AuthProps) {
   const location = useLocation();
 
-  console.log("role", roles);
   let isPermitted = roles?.find((role) => allowedRoles?.includes(role));
 
   const token = localStorage.getItem("access-token");

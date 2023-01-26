@@ -1,3 +1,4 @@
+import { Category } from "./category";
 export interface ProductParam {
   size: number;
   page: number;
@@ -6,10 +7,22 @@ export interface ProductParam {
   searchTerm: string;
 }
 
-export interface Product {
+export interface ProductAdminParam {
+  pageNo: number;
+  pageSize: number;
+}
+
+export interface Product extends BaseProduct {
+  categoryName: string;
+}
+
+export interface ProductAdmin extends BaseProduct {
+  createdDate: string;
+  category: Category;
+}
+interface BaseProduct {
   id: string;
   name: string;
   unitPrice: number;
-  categoryName: string;
   description: string;
 }

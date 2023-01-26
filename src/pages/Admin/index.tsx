@@ -20,6 +20,7 @@ function Admin() {
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
+        marginBottom: "5rem",
       }}
     >
       <BottomNavigation

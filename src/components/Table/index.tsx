@@ -8,40 +8,28 @@ import Paper from "@mui/material/Paper";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { ProductAdmin } from "../../types/product";
 import { Table as MuiTable } from "@mui/material";
-import { alpha } from "@mui/material/styles";
-import Box from "@mui/material/Box";
 import TablePagination from "@mui/material/TablePagination";
-import TableSortLabel from "@mui/material/TableSortLabel";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
-import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import { visuallyHidden } from "@mui/utils";
-
+import EditIcon from "@mui/icons-material/Edit";
 export interface TableProps {
-  products: ProductAdmin[];
+  products: ProductAdmin[] | undefined;
+  totalSize: number | undefined;
   editItem: (id: string) => void;
   deleteItem: (id: string) => void;
+  handleChangePage: any;
+  handleChangeItemsPerPage: any;
+  itemsPerPage: number;
+  page: number;
 }
-function Table({ deleteItem, editItem, products }: TableProps) {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
+function Table({
+  deleteItem,
+  editItem,
+  products,
+  totalSize,
+  handleChangePage,
+  handleChangeItemsPerPage,
+  itemsPerPage,
+  page,
+}: TableProps) {
   return (
     <>
       <TableContainer
@@ -60,7 +48,7 @@ function Table({ deleteItem, editItem, products }: TableProps) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {products!.map((row) => (
+            {products?.map((row) => (
               <TableRow
                 key={row.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -72,7 +60,7 @@ function Table({ deleteItem, editItem, products }: TableProps) {
                 <TableCell align="center">{row.unitPrice}</TableCell>
                 <TableCell align="center">{row.createdDate}</TableCell>
                 <TableCell align="center" onClick={() => editItem(row.id)}>
-                  <DeleteForeverIcon />
+                  <EditIcon />
                 </TableCell>
                 <TableCell align="center" onClick={() => deleteItem(row.id)}>
                   <DeleteForeverIcon />
@@ -84,11 +72,11 @@ function Table({ deleteItem, editItem, products }: TableProps) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={products.length}
-          rowsPerPage={rowsPerPage}
+          count={totalSize || 0}
+          rowsPerPage={itemsPerPage}
           page={page}
           onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
+          onRowsPerPageChange={handleChangeItemsPerPage}
         />
       </TableContainer>
     </>

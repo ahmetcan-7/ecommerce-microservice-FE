@@ -1,5 +1,6 @@
 import axios from "axios";
 import { PRODUCT_PARAM } from "../constants/product";
+import { Pagination } from "../types/pagination";
 import {
   Product,
   ProductAdminParam,
@@ -17,9 +18,12 @@ const getProducts = async (params: ProductParam = { ...PRODUCT_PARAM }) => {
 };
 
 const getProductsByPagination = async (params: ProductAdminParam) => {
-  const { data } = await api.get<ProductAdmin[]>("/v1/products/getAll", {
-    params,
-  });
+  const { data } = await api.get<Pagination<ProductAdmin[]>>(
+    "/v1/products/getAll",
+    {
+      params,
+    }
+  );
   return data;
 };
 

@@ -10,8 +10,11 @@ import { ProductAdmin } from "../../types/product";
 import { Table as MuiTable } from "@mui/material";
 import TablePagination from "@mui/material/TablePagination";
 import EditIcon from "@mui/icons-material/Edit";
+import { Column } from "../../types/table";
+import { IconButton } from "@material-ui/core";
 export interface TableProps {
-  products: ProductAdmin[] | undefined;
+  rows: Array<any> | undefined;
+  columns: readonly Column[];
   totalSize: number | undefined;
   editItem: (id: string) => void;
   deleteItem: (id: string) => void;
@@ -23,12 +26,13 @@ export interface TableProps {
 function Table({
   deleteItem,
   editItem,
-  products,
+  rows,
   totalSize,
   handleChangePage,
   handleChangeItemsPerPage,
   itemsPerPage,
   page,
+  columns,
 }: TableProps) {
   return (
     <>
@@ -39,34 +43,50 @@ function Table({
         <MuiTable sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="center">Product Name</TableCell>
-              <TableCell align="center">Category Name</TableCell>
-              <TableCell align="center">Unit Price</TableCell>
-              <TableCell align="center">Created Date</TableCell>
+              {columns.map((column) => (
+                <TableCell
+                  key={column.id}
+                  align={column?.align}
+                  style={{ minWidth: column?.minWidth }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
               <TableCell align="center">Edit</TableCell>
               <TableCell align="center">Delete</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {products?.map((row) => (
-              <TableRow
-                key={row.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row" align="center">
-                  {row.name}
-                </TableCell>
-                <TableCell align="center">{row.category.name}</TableCell>
-                <TableCell align="center">{row.unitPrice}</TableCell>
-                <TableCell align="center">{row.createdDate}</TableCell>
-                <TableCell align="center" onClick={() => editItem(row.id)}>
-                  <EditIcon />
-                </TableCell>
-                <TableCell align="center" onClick={() => deleteItem(row.id)}>
-                  <DeleteForeverIcon />
-                </TableCell>
-              </TableRow>
-            ))}
+            {rows?.map((row) => {
+              return (
+                <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                  {columns.map((column) => {
+                    const value = row[column?.id];
+                    return (
+                      <TableCell key={column.id} align={column?.align}>
+                        {value}
+                      </TableCell>
+                    );
+                  })}
+                  <TableCell align="center">
+                    <IconButton
+                      color="primary"
+                      onClick={() => editItem(row.id)}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  </TableCell>
+                  <TableCell align="center">
+                    <IconButton
+                      color="secondary"
+                      onClick={() => deleteItem(row.id)}
+                    >
+                      <DeleteForeverIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </MuiTable>
         <TablePagination

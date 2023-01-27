@@ -4,7 +4,9 @@ import { ProductApi } from "../../../api/productApi";
 import Loader from "../../../components/Loader";
 import Table from "../../../components/Table";
 import { PRODUCT_ADMIN_PARAM } from "../../../constants/product";
+import { PRODUCT_COLUMNS } from "../../../constants/table";
 import usePagination from "../../../hooks/usePagination";
+import { ProductRow } from "../../../types/table";
 
 function Products() {
   const { page, handleChangePage, handleChangeItemsPerPage, itemsPerPage } =
@@ -34,8 +36,16 @@ function Products() {
     console.log("icon", id);
   };
 
-  if (isFetched) {
-  }
+  const productRows = products?.data.map(
+    (product) =>
+      new ProductRow(
+        product.id,
+        product.name,
+        product.category.name,
+        product.unitPrice,
+        product.createdDate
+      )
+  );
 
   // if (isLoading) {
   //   return <Loader />;
@@ -50,10 +60,11 @@ function Products() {
       <h1>Products</h1>
 
       <Table
-        products={products?.data}
+        rows={productRows}
+        columns={PRODUCT_COLUMNS}
         deleteItem={deleteItem}
         editItem={editItem}
-        totalSize={products?.totalSize!}
+        totalSize={products?.totalSize}
         handleChangePage={handleChangePage}
         handleChangeItemsPerPage={handleChangeItemsPerPage}
         page={page}

@@ -27,7 +27,13 @@ const getProductsByPagination = async (params: ProductAdminParam) => {
   return data;
 };
 
+const deleteProduct = async (id: string) => {
+  const { data } = await api.delete(`/v1/products/${id}`);
+  return data;
+};
+
 export const ProductApi = {
   getProducts,
   getProductsByPagination,
+  deleteProduct,
 };

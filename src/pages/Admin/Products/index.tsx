@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { ProductApi } from "../../../api/productApi";
 import Loader from "../../../components/Loader";
+import Modal from "../../../components/Modal";
 import Table from "../../../components/Table";
 import { PRODUCT_ADMIN_PARAM } from "../../../constants/product";
 import { PRODUCT_COLUMNS } from "../../../constants/table";
@@ -9,32 +10,22 @@ import usePagination from "../../../hooks/usePagination";
 import { ProductRow } from "../../../types/table";
 
 function Products() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [productId, setProductId] = useState<string>();
   const { page, handleChangePage, handleChangeItemsPerPage, itemsPerPage } =
     usePagination();
 
-  const {
-    data: products,
-    isLoading,
-    isError,
-    error,
-    isFetched,
-  } = useQuery(["admin:products", page, itemsPerPage], () =>
-    ProductApi.getProductsByPagination({
-      ...PRODUCT_ADMIN_PARAM,
-      pageNo: page,
-      pageSize: itemsPerPage,
-    })
+  const queryClient = useQueryClient();
+
+  const { data: products } = useQuery(
+    ["admin:products", page, itemsPerPage],
+    () =>
+      ProductApi.getProductsByPagination({
+        ...PRODUCT_ADMIN_PARAM,
+        pageNo: page,
+        pageSize: itemsPerPage,
+      })
   );
-
-  console.log("itemsPerPage", page);
-
-  const deleteItem = (id: string) => {
-    console.log("icon", id);
-  };
-
-  const editItem = (id: string) => {
-    console.log("icon", id);
-  };
 
   const productRows = products?.data.map(
     (product) =>
@@ -47,18 +38,33 @@ function Products() {
       )
   );
 
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
+  const deleteItem = (id: string) => {
+    setProductId(id);
+    setModalOpen(true);
+  };
 
-  if (isError) {
-    return <div>{error as string}</div>;
-  }
+  const handleClickModal = () => {
+    deleteMutation.mutate(productId!);
+  };
+
+  const editItem = (id: string) => {
+    console.log("icon", id);
+  };
+
+  const deleteMutation = useMutation(ProductApi.deleteProduct, {
+    onSuccess: () => queryClient.invalidateQueries("admin:products"),
+  });
 
   return (
     <>
       <h1>Products</h1>
-
+      <Modal
+        open={modalOpen}
+        setOpen={setModalOpen}
+        onClickModal={handleClickModal}
+        title="Product delete action"
+        content="Are you sure you want to delete item?"
+      />
       <Table
         rows={productRows}
         columns={PRODUCT_COLUMNS}

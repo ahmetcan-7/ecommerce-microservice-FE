@@ -37,8 +37,11 @@ export const userMe = () => async (dispatch: UserDispatch) => {
     const { data } = await api.get<User>("/user/me");
     dispatch({ type: "USER_SUCCESS", payload: data });
   } catch (error) {
-    dispatch({ type: "USER_ERROR" });
-    dispatch(refreshToken());
+    const err = error as AxiosError<UserError>;
+    if (err.response?.status === 403) {
+      dispatch({ type: "USER_ERROR" });
+      dispatch(refreshToken());
+    }
   }
 };
 
@@ -52,7 +55,10 @@ export const refreshToken = () => async (dispatch: UserDispatch) => {
     setToken(data);
     dispatch(userMe());
   } catch (error) {
-    removeToken();
-    dispatch({ type: "REFRESH_TOKEN_ERROR" });
+    const err = error as AxiosError<UserError>;
+    if (err.response?.status === 403) {
+      removeToken();
+      dispatch({ type: "REFRESH_TOKEN_ERROR" });
+    }
   }
 };

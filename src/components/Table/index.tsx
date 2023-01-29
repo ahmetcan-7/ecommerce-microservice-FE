@@ -11,12 +11,13 @@ import { Table as MuiTable } from "@mui/material";
 import TablePagination from "@mui/material/TablePagination";
 import EditIcon from "@mui/icons-material/Edit";
 import { Column } from "../../types/table";
+import type { TableRow as TableRowType } from "../../types/table";
 import { IconButton } from "@material-ui/core";
 export interface TableProps {
-  rows: Array<any> | undefined;
+  rows: TableRowType[] | undefined;
   columns: readonly Column[];
   totalSize: number | undefined;
-  editItem: (id: string) => void;
+  editItem: (row: any) => void;
   deleteItem: (id: string) => void;
   handleChangePage: any;
   handleChangeItemsPerPage: any;
@@ -61,7 +62,7 @@ function Table({
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                   {columns.map((column) => {
-                    const value = row[column?.id];
+                    const value = (row as any)[column?.id];
                     return (
                       <TableCell key={column.id} align={column?.align}>
                         {value}
@@ -69,10 +70,7 @@ function Table({
                     );
                   })}
                   <TableCell align="center">
-                    <IconButton
-                      color="primary"
-                      onClick={() => editItem(row.id)}
-                    >
+                    <IconButton color="primary" onClick={() => editItem(row)}>
                       <EditIcon />
                     </IconButton>
                   </TableCell>

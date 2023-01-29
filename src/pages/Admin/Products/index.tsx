@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { ProductApi } from "../../../api/productApi";
 import Loader from "../../../components/Loader";
 import Modal from "../../../components/Modal";
@@ -10,6 +11,7 @@ import usePagination from "../../../hooks/usePagination";
 import { ProductRow } from "../../../types/table";
 
 function Products() {
+  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [productId, setProductId] = useState<string>();
   const { page, handleChangePage, handleChangeItemsPerPage, itemsPerPage } =
@@ -47,8 +49,11 @@ function Products() {
     deleteMutation.mutate(productId!);
   };
 
-  const editItem = (id: string) => {
-    console.log("icon", id);
+  const editItem = (productRow: ProductRow) => {
+    const product = products?.data.find((item) => item.id === productRow.id);
+    navigate(`/admin/addEditProduct/${productRow.id}`, {
+      state: { product },
+    });
   };
 
   const deleteMutation = useMutation(ProductApi.deleteProduct, {

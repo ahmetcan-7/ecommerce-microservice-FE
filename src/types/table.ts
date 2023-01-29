@@ -1,5 +1,7 @@
+import { Category } from "./category";
+
 export interface Column {
-  id: string;
+  id: string | number;
   label: string;
   minWidth?: number;
   align?: "right" | "center" | "left";
@@ -11,7 +13,6 @@ export class ProductRow {
   categoryName: string;
   unitPrice: number;
   createdDate: string;
-
   constructor(
     id: string,
     productName: string,
@@ -26,3 +27,5 @@ export class ProductRow {
     this.id = id;
   }
 }
+
+export type TableRow = InstanceType<typeof ProductRow>;

@@ -1,31 +1,103 @@
-import React from "react";
-import { useQuery, useQueryClient } from "react-query";
+import { Button } from "@material-ui/core";
+import { useFormik } from "formik";
+import { useEffect } from "react";
+import { useQuery } from "react-query";
 import { useLocation, useParams } from "react-router-dom";
+import { CategoryApi } from "../../../../api/categoryApi";
 import { ProductApi } from "../../../../api/productApi";
 import Loader from "../../../../components/Loader";
-import { Pagination } from "../../../../types/pagination";
-import { ProductAdmin } from "../../../../types/product";
-import { ProductRow } from "../../../../types/table";
-
-interface State {
-  state: ProductAdmin;
-}
+import SelectInput from "../../../../components/SelectInput";
+import TextInput from "../../../../components/TextInput";
+import productForm from "../../../../forms/productForm";
+import { ProductAdmin, ProductForm } from "../../../../types/product";
 
 function AddEditProduct() {
-  const { state }: State = useLocation();
+  const { state } = useLocation();
+  const productParam = state?.product as ProductAdmin;
   const { productId } = useParams();
 
   const { isLoading, data } = useQuery(["admin:product"], () => {
-    if (productId && !state) return ProductApi.getProductById(productId);
+    if (productId && !productParam) return ProductApi.getProductById(productId);
   });
 
-  const product = state ?? data;
-  const mode = product ? "edit" : "add";
+  const { data: categories } = useQuery(["admin:categories"], () =>
+    CategoryApi.getCategories()
+  );
 
+  const product = productParam ?? data;
+  const MODE = product ? "edit" : "add";
+  const form = useFormik({
+    ...productForm,
+    onSubmit: (values) => {
+      if (MODE === "add") {
+        addProduct(values);
+      } else {
+        editProduct(values);
+      }
+    },
+  });
+
+  useEffect(() => {
+    setInitialValues();
+  }, []);
+
+  const setInitialValues = () => {
+    if (MODE === "edit") {
+      const newProduct = {
+        ...product,
+        categoryId: product.category?.id,
+      } as Partial<Pick<ProductAdmin, "createdDate" | "id" | "category">>;
+      delete newProduct.id;
+      delete newProduct.createdDate;
+      delete newProduct.category;
+
+      const initialFormData = {
+        ...productForm.initialValues,
+        ...newProduct,
+      };
+      form.setValues(initialFormData, false);
+    }
+  };
+
+  const addProduct = (values: ProductForm) => {
+    console.log("values", values);
+  };
+
+  const editProduct = (values: ProductForm) => {
+    console.log("values", values);
+  };
+
+  console.log("categories", categories);
   if (isLoading) <Loader />;
   return (
     <>
-      <div>AddEditProduct</div>
+      <form onSubmit={form.handleSubmit}>
+        <TextInput name="name" label="Product Name" form={form} />
+        <TextInput name="unitPrice" label="Unit Price" form={form} />
+        <SelectInput
+          name="categoryId"
+          label="Select Category"
+          form={form}
+          data={categories}
+        />
+        <TextInput name="description" label="Description" form={form} />
+        <TextInput
+          name="quantityInStock"
+          label="Quantity In Stock"
+          form={form}
+          type="number"
+        />
+
+        <Button
+          color="primary"
+          variant="contained"
+          fullWidth
+          type="submit"
+          disabled={isLoading}
+        >
+          {MODE}
+        </Button>
+      </form>
     </>
   );
 }

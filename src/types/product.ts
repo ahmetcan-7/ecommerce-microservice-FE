@@ -7,6 +7,12 @@ export interface ProductParam {
   searchTerm: string;
 }
 
+interface BaseProduct {
+  id: string;
+  name: string;
+  unitPrice: number;
+  description: string;
+}
 export interface ProductAdminParam {
   pageNo: number;
   pageSize: number;
@@ -20,9 +26,10 @@ export interface ProductAdmin extends BaseProduct {
   createdDate: string;
   category: Category;
 }
-interface BaseProduct {
-  id: string;
+export interface ProductForm {
   name: string;
-  unitPrice: number;
+  unitPrice: number | undefined;
+  categoryId: Category["id"] | undefined;
   description: string;
+  quantityInStock: number | undefined;
 }

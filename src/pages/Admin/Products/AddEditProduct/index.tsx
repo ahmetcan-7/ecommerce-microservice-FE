@@ -1,7 +1,7 @@
 import { Button } from "@material-ui/core";
 import { useFormik } from "formik";
 import { useEffect } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { CategoryApi } from "../../../../api/categoryApi";
 import { ProductApi } from "../../../../api/productApi";
@@ -13,7 +13,6 @@ import { ProductAdmin, ProductForm } from "../../../../types/product";
 import { showSuccess } from "../../../../utils/showSuccess";
 
 function AddEditProduct() {
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { state } = useLocation();
   const productParam = state?.product as ProductAdmin;
@@ -30,7 +29,8 @@ function AddEditProduct() {
   const product = productParam ?? data;
   const MODE = product ? "edit" : "add";
   const form = useFormik({
-    ...productForm,
+    initialValues: productForm.initialValues(MODE === "edit"),
+    validationSchema: productForm.validationSchema(MODE === "edit"),
     onSubmit: (values) => {
       if (MODE === "add") {
         addProduct(values);
@@ -55,7 +55,7 @@ function AddEditProduct() {
       delete newProduct.category;
 
       const initialFormData = {
-        ...productForm.initialValues,
+        ...productForm.initialValues(),
         ...newProduct,
       };
       form.setValues(initialFormData, false);
@@ -84,13 +84,19 @@ function AddEditProduct() {
     },
   });
 
-  console.log("categories", categories);
+  console.log("form", form);
+
   if (isLoading) <Loader />;
   return (
     <>
       <form onSubmit={form.handleSubmit}>
         <TextInput name="name" label="Product Name" form={form} />
-        <TextInput name="unitPrice" label="Unit Price" form={form} />
+        <TextInput
+          name="unitPrice"
+          label="Unit Price"
+          form={form}
+          type="number"
+        />
         <SelectInput
           name="categoryId"
           label="Select Category"
@@ -98,19 +104,22 @@ function AddEditProduct() {
           data={categories}
         />
         <TextInput name="description" label="Description" form={form} />
-        <TextInput
-          name="quantityInStock"
-          label="Quantity In Stock"
-          form={form}
-          type="number"
-        />
 
+        {MODE === "add" && (
+          <TextInput
+            name="quantityInStock"
+            label="Quantity In Stock"
+            form={form}
+            type="number"
+          />
+        )}
         <Button
           color="primary"
           variant="contained"
           fullWidth
           type="submit"
           disabled={isLoading}
+          // disabled={isLoading || !(form.isValid && form.dirty)}
         >
           {MODE}
         </Button>

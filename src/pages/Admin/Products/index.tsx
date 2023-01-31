@@ -1,3 +1,4 @@
+import { Box, Button, Typography } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -62,7 +63,19 @@ function Products() {
 
   return (
     <>
-      <h1>Products</h1>
+      <Box>
+        <Typography variant="h3">Products</Typography>
+        <Button
+          variant="contained"
+          onClick={() => navigate("/admin/addEditProduct")}
+          style={{
+            margin: "auto",
+            display: "block",
+          }}
+        >
+          Create Product
+        </Button>
+      </Box>
       <Modal
         open={modalOpen}
         setOpen={setModalOpen}

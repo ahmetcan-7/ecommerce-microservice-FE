@@ -31,5 +31,5 @@ export interface ProductForm {
   unitPrice: number | undefined;
   categoryId: Category["id"] | undefined;
   description: string;
-  quantityInStock: number | undefined;
+  quantityInStock?: number | undefined;
 }

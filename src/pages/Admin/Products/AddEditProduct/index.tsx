@@ -1,8 +1,8 @@
 import { Button } from "@material-ui/core";
 import { useFormik } from "formik";
 import { useEffect } from "react";
-import { useQuery } from "react-query";
-import { useLocation, useParams } from "react-router-dom";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { CategoryApi } from "../../../../api/categoryApi";
 import { ProductApi } from "../../../../api/productApi";
 import Loader from "../../../../components/Loader";
@@ -10,8 +10,11 @@ import SelectInput from "../../../../components/SelectInput";
 import TextInput from "../../../../components/TextInput";
 import productForm from "../../../../forms/productForm";
 import { ProductAdmin, ProductForm } from "../../../../types/product";
+import { showSuccess } from "../../../../utils/showSuccess";
 
 function AddEditProduct() {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const { state } = useLocation();
   const productParam = state?.product as ProductAdmin;
   const { productId } = useParams();
@@ -59,13 +62,27 @@ function AddEditProduct() {
     }
   };
 
-  const addProduct = (values: ProductForm) => {
-    console.log("values", values);
+  const addProduct = (data: ProductForm) => {
+    createMutation.mutate(data);
   };
 
-  const editProduct = (values: ProductForm) => {
-    console.log("values", values);
+  const editProduct = (data: ProductForm) => {
+    editMutation.mutate({ data, id: product.id });
   };
+
+  const editMutation = useMutation(ProductApi.updateProduct, {
+    onSuccess: () => {
+      showSuccess("Product has been updated successfully");
+      navigate(`/admin/products`);
+    },
+  });
+
+  const createMutation = useMutation(ProductApi.saveProduct, {
+    onSuccess: () => {
+      showSuccess("Product has been created successfully");
+      navigate(`/admin/products`);
+    },
+  });
 
   console.log("categories", categories);
   if (isLoading) <Loader />;

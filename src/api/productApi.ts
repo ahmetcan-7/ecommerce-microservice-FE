@@ -6,6 +6,7 @@ import {
   ProductAdminParam,
   ProductAdmin,
   ProductParam,
+  ProductForm,
 } from "../types/product";
 import { api } from "./axios";
 
@@ -38,9 +39,30 @@ const getProductById = async (id: string) => {
   return data;
 };
 
+const saveProduct = async (product: ProductForm) => {
+  const { data } = await api.post(`/v1/products`, {
+    ...product,
+  });
+
+  return data;
+};
+
+const updateProduct = async (updateProduct: {
+  data: ProductForm;
+  id: string;
+}) => {
+  const { data } = await api.put(`/v1/products/${updateProduct.id}`, {
+    ...updateProduct.data,
+  });
+
+  return data;
+};
+
 export const ProductApi = {
   getProducts,
   getProductsByPagination,
   deleteProduct,
   getProductById,
+  saveProduct,
+  updateProduct,
 };

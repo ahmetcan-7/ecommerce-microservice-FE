@@ -10,7 +10,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import { Category } from "../../types/category";
-
+import "./style.css";
 type SearchBarProps = {
   onChangeSearchValue: (value: string) => void;
   searchValue: string;
@@ -55,20 +55,13 @@ function SearchBar({
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        margin: "1rem 0",
-        alignItems: "center",
-      }}
-    >
+    <Box className="container">
       <TextField
         id="filled-search"
         type="search"
         variant="outlined"
         className="without-padding"
-        style={{ flex: 0.2 }}
+        style={{ flex: 0.2, margin: "0.4rem 0" }}
         fullWidth
         size="small"
         value={searchValue}
@@ -81,7 +74,12 @@ function SearchBar({
           ),
         }}
       />
-      <FormControl variant="outlined" size="small" style={{ flex: 0.075 }}>
+      <FormControl
+        variant="outlined"
+        size="small"
+        style={{ flex: 0.075, margin: "0.4rem 0" }}
+        fullWidth
+      >
         <InputLabel>Sort By</InputLabel>
         <Select label="Months" value={sortBy} onChange={handleChangeSortBy}>
           <MenuItem value={""}>Sort</MenuItem>
@@ -91,7 +89,12 @@ function SearchBar({
           <MenuItem value={"PRICE_ASC"}>Price ASC</MenuItem>
         </Select>
       </FormControl>
-      <FormControl variant="outlined" size="small" style={{ flex: 0.075 }}>
+      <FormControl
+        variant="outlined"
+        size="small"
+        style={{ flex: 0.075, margin: "0.4rem 0" }}
+        fullWidth
+      >
         <InputLabel>Filter</InputLabel>
         <Select label="Months" value={filter} onChange={handleChangeFilter}>
           <MenuItem value={""}>All Categories</MenuItem>

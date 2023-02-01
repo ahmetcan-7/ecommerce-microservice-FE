@@ -1,7 +1,12 @@
-.without-padding label {
-  transform: translate(14px, 7px) scale(1);
+.container {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+  align-items: center;
 }
 
-.without-padding input {
-  padding: 0.5rem;
+@media screen and (max-width: 900px) {
+  .container {
+    flex-direction: column;
+  }
 }

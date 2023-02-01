@@ -80,7 +80,11 @@ const Card = ({ product }: CardProps) => {
             </Typography>
           </Box>
           <Box style={{ height: "3rem" }}>
-            <Typography variant="body2" color="text.secondary" className="adam">
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              className="text-ellipsis"
+            >
               {product.description}
             </Typography>
           </Box>

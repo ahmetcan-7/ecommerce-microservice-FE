@@ -25,7 +25,7 @@ import {
 } from "../../store/actions/cartAction";
 import { getFromLocalStorage } from "../../utils/localStorage";
 import { Cart } from "../../types/cart";
-
+import "./style.css";
 type CardProps = {
   product: Product;
 };
@@ -61,16 +61,16 @@ const Card = ({ product }: CardProps) => {
       dispatch(decreaseProductQuantity(product.id));
     }
   };
+
   return (
     <MuiCard>
       <CardActionArea sx={{ display: "flex", flexDirection: "column" }}>
         <CardMedia
           component="img"
-          height="140"
-          image="/static/images/cards/contemplative-reptile.jpg"
-          alt="green iguana"
+          height="200"
+          image={product.imageUrl ?? ""}
         />
-        <CardContent>
+        <CardContent style={{ width: "100%" }}>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Typography gutterBottom variant="h5" component="div">
               {product.name}
@@ -79,9 +79,11 @@ const Card = ({ product }: CardProps) => {
               {product.unitPrice.toString()} TL
             </Typography>
           </Box>
-          <Typography variant="body2" color="text.secondary">
-            {product.description}
-          </Typography>
+          <Box style={{ height: "3rem" }}>
+            <Typography variant="body2" color="text.secondary" className="adam">
+              {product.description}
+            </Typography>
+          </Box>
         </CardContent>
       </CardActionArea>
       <CardActions sx={{ height: "4rem" }}>

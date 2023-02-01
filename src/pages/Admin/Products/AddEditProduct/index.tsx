@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+import { Box, Button, IconButton } from "@material-ui/core";
 import { useFormik } from "formik";
 import { useEffect } from "react";
 import { useMutation, useQuery } from "react-query";
@@ -11,6 +11,9 @@ import TextInput from "../../../../components/TextInput";
 import productForm from "../../../../forms/productForm";
 import { ProductAdmin, ProductForm } from "../../../../types/product";
 import { showSuccess } from "../../../../utils/showSuccess";
+import { useState, ChangeEvent } from "react";
+import { FileApi } from "../../../../api/file";
+import ClearIcon from "@mui/icons-material/Clear";
 
 function AddEditProduct() {
   const navigate = useNavigate();
@@ -84,7 +87,22 @@ function AddEditProduct() {
     },
   });
 
-  console.log("form", form);
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      return;
+    }
+    const fileData = new FormData();
+    fileData.append("file", e.target.files[0]);
+    const res = await FileApi.saveFile(fileData);
+    form.setFieldValue("imageUrl", res);
+  };
+
+  const handleRemoveFile = async () => {
+    const res = await FileApi.removeFile(
+      form.values.imageUrl.split("/").pop() ?? ""
+    );
+    form.setFieldValue("imageUrl", "");
+  };
 
   if (isLoading) <Loader />;
   return (
@@ -113,6 +131,36 @@ function AddEditProduct() {
             type="number"
           />
         )}
+        <Box style={{ display: "flex", marginBottom: "0.4rem" }}>
+          {form.values.imageUrl && (
+            <Box
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginRight: "1.5rem",
+              }}
+            >
+              <img src={form.values.imageUrl} width={80} height={50} />
+
+              <IconButton
+                aria-label="delete"
+                color="secondary"
+                onClick={handleRemoveFile}
+              >
+                <ClearIcon />
+              </IconButton>
+            </Box>
+          )}
+          <Button variant="contained" component="label">
+            Upload File
+            <input
+              type="file"
+              hidden
+              onChange={handleFileChange}
+              accept="image/*"
+            />
+          </Button>
+        </Box>
         <Button
           color="primary"
           variant="contained"

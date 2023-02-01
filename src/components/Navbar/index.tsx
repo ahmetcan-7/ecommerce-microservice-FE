@@ -23,7 +23,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { calculateCountOfCartItems } from "../../utils/cart";
 
 const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Profile", "Account", "Dashboard", "Logout", "Admin"];
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -68,6 +68,9 @@ const Navbar = () => {
     switch (setting) {
       case "Logout":
         dispatch(logout());
+        break;
+      case "Admin":
+        navigate("/admin");
         break;
     }
     setAnchorElUser(null);

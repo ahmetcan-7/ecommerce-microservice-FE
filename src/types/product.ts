@@ -12,6 +12,7 @@ interface BaseProduct {
   name: string;
   unitPrice: number;
   description: string;
+  imageUrl: string;
 }
 export interface ProductAdminParam {
   pageNo: number;
@@ -32,4 +33,5 @@ export interface ProductForm {
   categoryId: Category["id"] | undefined;
   description: string;
   quantityInStock?: number | undefined;
+  imageUrl: string;
 }

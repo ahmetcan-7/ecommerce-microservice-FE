@@ -6,6 +6,7 @@ const validationSchema = (isEdit: boolean) =>
     description: yup.string().required("description is required"),
     name: yup.string().required("name is required"),
     categoryId: yup.number().required("category is required"),
+    imageUrl: yup.string().required("image is required"),
     quantityInStock: yup.number().when([], {
       is: () => !isEdit,
       then: yup
@@ -26,6 +27,7 @@ const initialValues = (isEdit: boolean = true): ProductForm => {
     description: "",
     name: "",
     unitPrice: undefined,
+    imageUrl: "",
     ...(!isEdit && { quantityInStock: undefined }),
   };
 };

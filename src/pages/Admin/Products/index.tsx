@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ProductApi } from "../../../api/productApi";
 import Loader from "../../../components/Loader";
 import Modal from "../../../components/Modal";
-import Table from "../../../components/Table";
+import TableWithActions from "../../../components/Table/TableWithActions";
 import { PRODUCT_ADMIN_PARAM } from "../../../constants/product";
 import { PRODUCT_COLUMNS } from "../../../constants/table";
 import usePagination from "../../../hooks/usePagination";
@@ -87,7 +87,7 @@ function Products() {
         title="Product delete action"
         content="Are you sure you want to delete item?"
       />
-      <Table
+      <TableWithActions
         rows={productRows}
         columns={PRODUCT_COLUMNS}
         deleteItem={deleteItem}

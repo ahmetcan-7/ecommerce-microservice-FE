@@ -28,4 +28,22 @@ export class ProductRow {
   }
 }
 
-export type TableRow = InstanceType<typeof ProductRow>;
+export class OrderRow {
+  id: string;
+  items: number;
+  orderStatus: string;
+  createdDate: string;
+  constructor(
+    id: string,
+    items: number,
+    orderStatus: string,
+    createdDate: string
+  ) {
+    this.items = items;
+    this.orderStatus = orderStatus;
+    this.createdDate = createdDate;
+    this.id = id;
+  }
+}
+
+export type TableRow = InstanceType<typeof ProductRow | typeof OrderRow>;

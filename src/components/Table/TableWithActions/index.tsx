@@ -1,4 +1,3 @@
-import React from "react";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
@@ -6,13 +5,13 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { ProductAdmin } from "../../types/product";
 import { Table as MuiTable } from "@mui/material";
 import TablePagination from "@mui/material/TablePagination";
 import EditIcon from "@mui/icons-material/Edit";
-import { Column } from "../../types/table";
-import type { TableRow as TableRowType } from "../../types/table";
+import { Column } from "../../../types/table";
+import type { TableRow as TableRowType } from "../../../types/table";
 import { IconButton } from "@material-ui/core";
+
 export interface TableProps {
   rows: TableRowType[] | undefined;
   columns: readonly Column[];
@@ -24,7 +23,8 @@ export interface TableProps {
   itemsPerPage: number;
   page: number;
 }
-function Table({
+
+function TableWithActions({
   deleteItem,
   editItem,
   rows,
@@ -101,4 +101,4 @@ function Table({
   );
 }
 
-export default Table;
+export default TableWithActions;

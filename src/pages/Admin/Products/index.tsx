@@ -10,6 +10,7 @@ import { PRODUCT_ADMIN_PARAM } from "../../../constants/product";
 import { PRODUCT_COLUMNS } from "../../../constants/table";
 import usePagination from "../../../hooks/usePagination";
 import { ProductRow } from "../../../types/table";
+import { showSuccess } from "../../../utils/showSuccess";
 
 function Products() {
   const navigate = useNavigate();
@@ -58,7 +59,10 @@ function Products() {
   };
 
   const deleteMutation = useMutation(ProductApi.deleteProduct, {
-    onSuccess: () => queryClient.invalidateQueries("admin:products"),
+    onSuccess: () => {
+      showSuccess("Product has been deleted successfully");
+      queryClient.invalidateQueries("admin:products");
+    },
   });
 
   return (

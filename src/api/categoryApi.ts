@@ -7,6 +7,13 @@ const getCategories = async () => {
   return data;
 };
 
+const saveCategory = async (category: { name: string }) => {
+  const { data } = await api.post("/v1/categories", category);
+
+  return data;
+};
+
 export const CategoryApi = {
   getCategories,
+  saveCategory,
 };

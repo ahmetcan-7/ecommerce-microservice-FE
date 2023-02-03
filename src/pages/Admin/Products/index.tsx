@@ -10,6 +10,7 @@ import { PRODUCT_ADMIN_PARAM } from "../../../constants/product";
 import { PRODUCT_COLUMNS } from "../../../constants/table";
 import usePagination from "../../../hooks/usePagination";
 import { ProductRow } from "../../../types/table";
+import { formatDate } from "../../../utils/date";
 import { showSuccess } from "../../../utils/showSuccess";
 
 function Products() {
@@ -38,7 +39,7 @@ function Products() {
         product.name,
         product.category.name,
         product.unitPrice,
-        product.createdDate
+        formatDate(product.createdDate)
       )
   );
 

@@ -7,6 +7,7 @@ import TableWithDetail from "../../../components/Table/TableWithDetail";
 import { ORDER_COLUMNS } from "../../../constants/table";
 import usePagination from "../../../hooks/usePagination";
 import { OrderRow, TableRow } from "../../../types/table";
+import { formatDate } from "../../../utils/date";
 
 function Orders() {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ function Orders() {
         order.id,
         order.items.length,
         order.orderStatus,
-        order.createdDate
+        formatDate(order.createdDate)
       )
   );
 

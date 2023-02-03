@@ -1,11 +1,12 @@
 import { Box, Button, Container, Typography } from "@material-ui/core";
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { OrderApi } from "../../api/orderApi";
 import Card from "../../components/Card";
 import Modal from "../../components/Modal";
+import SelectInput from "../../components/SelectInput";
 import TextInput from "../../components/TextInput";
 import orderForm from "../../forms/orderForm";
 import { AppState } from "../../store";
@@ -16,10 +17,10 @@ import {
   calculateTotalPriceOfCartItems,
 } from "../../utils/cart";
 import { showSuccess } from "../../utils/showSuccess";
-
 function Cart() {
   const items = useSelector((state: AppState) => state.cart);
   const [modalOpen, setModalOpen] = useState(false);
+  const [districts, setDistricts] = useState([]);
   const dispatch = useDispatch<any>();
   const form = useFormik({
     ...orderForm,
@@ -47,6 +48,25 @@ function Cart() {
       dispatch(clearAllItems());
     },
   });
+
+  let citiesAndDistrict = require("../../db.json");
+
+  const cities = citiesAndDistrict.map((city: any) => {
+    return { name: city.il_adi, id: city.il_adi };
+  });
+
+  const getDistricts = (cityName: string) => {
+    return citiesAndDistrict
+      .find((city: any) => city.il_adi === cityName)
+      ?.ilceler.map((district: any) => {
+        return { name: district.ilce_adi, id: district.ilce_adi };
+      });
+  };
+
+  useEffect(() => {
+    setDistricts(getDistricts(form.values.city));
+  }, [form.values.city]);
+
   return (
     <>
       <Typography variant="h2" align="center">
@@ -70,8 +90,15 @@ function Cart() {
         disableBtn={true}
       >
         <form onSubmit={form.handleSubmit}>
-          <TextInput name="city" label="city" form={form} />
-          <TextInput name="district" label="district" form={form} />
+          <SelectInput name="city" label="city" form={form} data={cities} />
+          <SelectInput
+            name="district"
+            label="district"
+            form={form}
+            data={districts}
+          />
+          {/* <TextInput name="city" label="city" form={form} /> */}
+          {/* <TextInput name="district" label="district" form={form} /> */}
           <TextInput name="addressDetail" label="addressDetail" form={form} />
           <Button
             color="secondary"

@@ -13,3 +13,10 @@ export const calculateTotalPriceOfCartItems = (items: Cart[]) => {
     )
     .toFixed(2);
 };
+
+export const calculateTotalPriceOfOneProduct = (
+  unitPrice: number,
+  quantity: number
+) => {
+  return unitPrice * quantity;
+};

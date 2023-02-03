@@ -37,6 +37,9 @@ function App() {
   const AddEditProducts = React.lazy(
     () => import("./pages/Admin/Products/AddEditProduct")
   );
+  const OrderDetail = React.lazy(
+    () => import("./pages/Admin/Orders/OrderDetail")
+  );
   return (
     <Router>
       <Suspense fallback={<Loader />}>
@@ -57,6 +60,7 @@ function App() {
                 <Route index element={<Home />} />
                 <Route path="products" element={<AdminProducts />} />
                 <Route path="orders" element={<AdminOrders />} />
+                <Route path="orderDetail/:orderId" element={<OrderDetail />} />
                 <Route path="categories" element={<AdminCategories />} />
                 <Route
                   path="addEditProduct/:productId?"

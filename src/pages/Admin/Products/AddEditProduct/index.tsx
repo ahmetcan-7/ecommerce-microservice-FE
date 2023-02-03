@@ -15,10 +15,13 @@ import { useState, ChangeEvent } from "react";
 import { FileApi } from "../../../../api/file";
 import ClearIcon from "@mui/icons-material/Clear";
 
+interface AddEditProductLocation {
+  state: ProductAdmin;
+}
+
 function AddEditProduct() {
   const navigate = useNavigate();
-  const { state } = useLocation();
-  const productParam = state?.product as ProductAdmin;
+  const { state: productParam }: AddEditProductLocation = useLocation();
   const { productId } = useParams();
 
   const { isLoading, data } = useQuery(["admin:product"], () => {

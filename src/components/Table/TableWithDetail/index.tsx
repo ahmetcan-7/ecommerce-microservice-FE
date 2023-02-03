@@ -12,12 +12,12 @@ import type { TableRow as TableRowType } from "../../../types/table";
 export interface TableProps {
   rows: TableRowType[] | undefined;
   columns: readonly Column[];
-  totalSize: number | undefined;
-  handleChangePage: any;
-  handleChangeItemsPerPage: any;
-  itemsPerPage: number;
-  page: number;
-  onClickDetail: (tableRow: TableRowType) => void;
+  totalSize?: number | undefined;
+  handleChangePage?: any;
+  handleChangeItemsPerPage?: any;
+  itemsPerPage?: number;
+  page?: number;
+  onClickDetail?: (tableRow: TableRowType) => void;
 }
 
 function TableWithDetail({
@@ -30,6 +30,7 @@ function TableWithDetail({
   columns,
   onClickDetail,
 }: TableProps) {
+  console.log(page, itemsPerPage);
   return (
     <>
       <TableContainer
@@ -58,7 +59,7 @@ function TableWithDetail({
                   role="checkbox"
                   tabIndex={-1}
                   key={row.id}
-                  onClick={() => onClickDetail(row)}
+                  onClick={() => onClickDetail && onClickDetail(row)}
                 >
                   {columns.map((column) => {
                     const value = (row as any)[column?.id];
@@ -73,15 +74,17 @@ function TableWithDetail({
             })}
           </TableBody>
         </MuiTable>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={totalSize || 0}
-          rowsPerPage={itemsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeItemsPerPage}
-        />
+        {page !== undefined && itemsPerPage && (
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={totalSize || 0}
+            rowsPerPage={itemsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeItemsPerPage}
+          />
+        )}
       </TableContainer>
     </>
   );

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { PRODUCT_PARAM } from "../constants/product";
 import { Pagination } from "../types/pagination";
 import {
@@ -39,6 +38,14 @@ const getProductById = async (id: string) => {
   return data;
 };
 
+const getProductsByIds = async (productIds: string[]) => {
+  const { data } = await api.get<ProductAdmin[]>(
+    `/v1/products/findByIds/${productIds.toString()}`
+  );
+
+  return data;
+};
+
 const saveProduct = async (product: ProductForm) => {
   const { data } = await api.post(`/v1/products`, {
     ...product,
@@ -65,4 +72,5 @@ export const ProductApi = {
   getProductById,
   saveProduct,
   updateProduct,
+  getProductsByIds,
 };

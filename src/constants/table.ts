@@ -8,8 +8,17 @@ export const PRODUCT_COLUMNS: readonly Column[] = [
 ];
 
 export const ORDER_COLUMNS: readonly Column[] = [
-  { id: "id", label: "Order Id" },
+  { id: "id", label: "Order Number" },
   { id: "items", label: "Order Items" },
   { id: "orderStatus", label: "Order Status" },
   { id: "createdDate", label: "Created Date" },
+];
+
+export const ORDER_PRODUCT_COLUMNS: readonly Column[] = [
+  { id: "id", label: "Product Number" },
+  { id: "productName", label: "Product Name" },
+  { id: "categoryName", label: "Category Name" },
+  { id: "unitPrice", label: "Unit Price" },
+  { id: "quantity", label: "Product Quantity" },
+  { id: "totalPrice", label: "Total Price" },
 ];

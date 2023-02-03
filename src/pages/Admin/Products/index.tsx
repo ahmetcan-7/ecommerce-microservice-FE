@@ -54,7 +54,7 @@ function Products() {
   const editItem = (productRow: ProductRow) => {
     const product = products?.data.find((item) => item.id === productRow.id);
     navigate(`/admin/addEditProduct/${productRow.id}`, {
-      state: { product },
+      state: product,
     });
   };
 

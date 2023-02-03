@@ -1,5 +1,6 @@
 import React from "react";
 import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { OrderApi } from "../../../api/orderApi";
 import TableWithDetail from "../../../components/Table/TableWithDetail";
 import { ORDER_COLUMNS } from "../../../constants/table";
@@ -7,6 +8,7 @@ import usePagination from "../../../hooks/usePagination";
 import { OrderRow, TableRow } from "../../../types/table";
 
 function Orders() {
+  const navigate = useNavigate();
   const { page, handleChangePage, handleChangeItemsPerPage, itemsPerPage } =
     usePagination();
 
@@ -29,7 +31,9 @@ function Orders() {
 
   const navigateDetailOrder = (orderRow: TableRow) => {
     const order = orders?.data.find((order) => order.id === orderRow.id);
-    console.log("order", order);
+    navigate(`/admin/orderDetail/${order?.id}`, {
+      state: order,
+    });
   };
   return (
     <>

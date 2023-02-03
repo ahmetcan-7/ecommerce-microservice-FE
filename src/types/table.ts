@@ -49,21 +49,27 @@ export class OrderRow {
 export class OrderProductRow {
   id: string;
   productName: string;
-  categoryName: string;
+  customerName: string;
+  customerEmail: string;
+  city: string;
   unitPrice: number;
   quantity: number;
   totalPrice: number;
   constructor(
     id: string,
     productName: string,
-    categoryName: string,
+    customerName: string,
+    customerEmail: string,
+    city: string,
     unitPrice: number,
     quantity: number,
     totalPrice: number
   ) {
     this.productName = productName;
-    this.categoryName = categoryName;
+    this.customerName = customerName;
+    this.customerEmail = customerEmail;
     this.unitPrice = unitPrice;
+    this.city = city;
     this.id = id;
     this.quantity = quantity;
     this.totalPrice = totalPrice;

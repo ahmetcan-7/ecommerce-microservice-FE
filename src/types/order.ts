@@ -12,6 +12,11 @@ export interface Order {
   createdDate: string;
 }
 
+export interface CreateOrderRequest {
+  items: OrderItem[];
+  address: OrderAdress;
+}
+
 interface OrderAdress {
   city: string;
   district: string;
@@ -29,4 +34,10 @@ enum OrderStatus {
   APPROVED = "APPROVED",
   CANCELLING = "CANCELLING",
   CANCELLED = "CANCELLED",
+}
+
+export interface OrderForm {
+  district: string;
+  city: string;
+  addressDetail: string;
 }

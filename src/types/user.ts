@@ -9,6 +9,13 @@ export interface User {
   roles: string[];
 }
 
+export interface UserCredentials {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
 export interface LoginForm {
   email: string;
   password: string;

@@ -18,7 +18,8 @@ const cartReducer = (state: CartState = defaultState, action: CartAction) => {
         if (cart.product.id === action.payload) cart.quantity--;
         return cart;
       });
-
+    case "CLEAR_ALL_ITEMS":
+      return [];
     default:
       return state;
   }

@@ -68,7 +68,7 @@ function Products() {
   return (
     <>
       <Box>
-        <Typography variant="h3">Products</Typography>
+        <Typography variant="h4">Products</Typography>
         <Button
           variant="contained"
           onClick={() => navigate("/admin/addEditProduct")}
@@ -85,8 +85,9 @@ function Products() {
         setOpen={setModalOpen}
         onClickModal={handleClickModal}
         title="Product delete action"
-        content="Are you sure you want to delete item?"
-      />
+      >
+        Are you sure you want to delete item?
+      </Modal>
       <TableWithActions
         rows={productRows}
         columns={PRODUCT_COLUMNS}

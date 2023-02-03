@@ -17,3 +17,7 @@ export const increaseProductQuantity =
   (id: string) => (dispatch: CartDispatch) => {
     dispatch({ type: "INCREASE_PRODUCT_QUANTITY", payload: id });
   };
+
+export const clearAllItems = () => (dispatch: CartDispatch) => {
+  dispatch({ type: "CLEAR_ALL_ITEMS" });
+};

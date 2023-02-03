@@ -9,16 +9,18 @@ import DialogTitle from "@mui/material/DialogTitle";
 interface ModalProps {
   open: boolean;
   setOpen: (isOpen: boolean) => void;
-  onClickModal: () => void;
+  onClickModal?: () => void;
   title: string;
-  content: string;
+  disableBtn?: boolean;
+  children: React.ReactNode;
 }
 export default function Modal({
   open,
   setOpen,
   onClickModal,
-  content,
   title,
+  disableBtn = false,
+  children,
 }: ModalProps) {
   const handleClose = () => {
     setOpen(false);
@@ -26,7 +28,7 @@ export default function Modal({
 
   const handleOpen = () => {
     handleClose();
-    onClickModal();
+    onClickModal && onClickModal();
   };
 
   return (
@@ -42,15 +44,17 @@ export default function Modal({
         <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {content}
+            {children}
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={handleOpen} autoFocus>
-            Agree
-          </Button>
-        </DialogActions>
+        {!disableBtn && (
+          <DialogActions>
+            <Button onClick={handleClose}>Disagree</Button>
+            <Button onClick={handleOpen} autoFocus>
+              Agree
+            </Button>
+          </DialogActions>
+        )}
       </Dialog>
     </div>
   );

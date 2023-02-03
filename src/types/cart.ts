@@ -26,11 +26,16 @@ interface INCREASE_PRODUCT_QUANTITY {
   payload: string;
 }
 
+interface CLEAR_ALL_ITEMS {
+  type: "CLEAR_ALL_ITEMS";
+}
+
 export type CartAction =
   | ADD_TO_CART
   | REMOVE_FROM_CART
   | DECREASE_PRODUCT_QUANTITY
-  | INCREASE_PRODUCT_QUANTITY;
+  | INCREASE_PRODUCT_QUANTITY
+  | CLEAR_ALL_ITEMS;
 
 export type CartState = Cart[];
 

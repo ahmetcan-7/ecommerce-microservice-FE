@@ -1,3 +1,4 @@
+import { Typography } from "@material-ui/core";
 import React from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -37,7 +38,7 @@ function Orders() {
   };
   return (
     <>
-      <h3>Orders</h3>
+      <Typography variant="h4">Orders</Typography>
       <TableWithDetail
         rows={orderRows}
         columns={ORDER_COLUMNS}

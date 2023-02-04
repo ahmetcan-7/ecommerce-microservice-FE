@@ -14,6 +14,7 @@ import { showSuccess } from "../../../../utils/showSuccess";
 import { useState, ChangeEvent } from "react";
 import { FileApi } from "../../../../api/file";
 import ClearIcon from "@mui/icons-material/Clear";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 interface AddEditProductLocation {
   state: ProductAdmin;
@@ -101,9 +102,7 @@ function AddEditProduct() {
   };
 
   const handleRemoveFile = async () => {
-    const res = await FileApi.removeFile(
-      form.values.imageUrl.split("/").pop() ?? ""
-    );
+    await FileApi.removeFile(form.values.imageUrl.split("/").pop() ?? "");
     form.setFieldValue("imageUrl", "");
   };
 
@@ -143,7 +142,11 @@ function AddEditProduct() {
                 marginRight: "1.5rem",
               }}
             >
-              <img src={form.values.imageUrl} width={80} height={50} />
+              <img
+                src={form.values.imageUrl}
+                height={50}
+                style={{ width: "auto" }}
+              />
 
               <IconButton
                 aria-label="delete"
@@ -164,16 +167,17 @@ function AddEditProduct() {
             />
           </Button>
         </Box>
-        <Button
+        <LoadingButton
           color="primary"
           variant="contained"
           fullWidth
           type="submit"
           disabled={isLoading}
           // disabled={isLoading || !(form.isValid && form.dirty)}
+          loading={createMutation.isLoading || editMutation.isLoading}
         >
           {MODE}
-        </Button>
+        </LoadingButton>
       </form>
     </>
   );

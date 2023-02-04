@@ -8,6 +8,15 @@ const getUserById = async (customerId: string) => {
   return data;
 };
 
+const resetPassword = async (gmail: string) => {
+  const { data } = await api.get<UserCredentials>(
+    `/user/resetpassword/${gmail}`
+  );
+
+  return data;
+};
+
 export const UserApi = {
   getUserById,
+  resetPassword,
 };

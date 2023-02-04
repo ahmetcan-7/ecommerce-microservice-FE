@@ -1,6 +1,6 @@
 import { Box, Button, Container, Typography } from "@material-ui/core";
 import { useFormik } from "formik";
-import React, { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { OrderApi } from "../../api/orderApi";
@@ -17,6 +17,10 @@ import {
   calculateTotalPriceOfCartItems,
 } from "../../utils/cart";
 import { showSuccess } from "../../utils/showSuccess";
+import { ProductApi } from "../../api/productApi";
+import { showError } from "../../utils/showError";
+import { LoadingButton } from "@mui/lab";
+
 function Cart() {
   const items = useSelector((state: AppState) => state.cart);
   const [modalOpen, setModalOpen] = useState(false);
@@ -33,6 +37,10 @@ function Cart() {
     },
   });
 
+  useEffect(() => {
+    setDistricts(getDistricts(form.values.city));
+  }, [form.values.city]);
+
   const openModal = () => {
     setModalOpen(true);
   };
@@ -46,6 +54,10 @@ function Cart() {
       showSuccess("Order has been created successfully");
       form.resetForm();
       dispatch(clearAllItems());
+    },
+    onError: (e: any) => {
+      const res = e.response?.data?.message as string;
+      getProducts(res);
     },
   });
 
@@ -63,15 +75,17 @@ function Cart() {
       });
   };
 
-  useEffect(() => {
-    setDistricts(getDistricts(form.values.city));
-  }, [form.values.city]);
+  const getProducts = async (res: string) => {
+    const productIds = res.substring(1, res.length - 1).split(",") as string[];
+    const products = await ProductApi.getProductsByIds(productIds);
+    const productNames = products.map((product) => product.name);
+    showError(`${productNames} not in stock!`);
+  };
+
+  console.log("loading", createMutation.isLoading);
 
   return (
     <>
-      <Typography variant="h2" align="center">
-        Cart
-      </Typography>
       <Container maxWidth="sm">
         {items.map((item) => (
           <Box style={{ margin: "1rem 0" }}>
@@ -97,8 +111,6 @@ function Cart() {
             form={form}
             data={districts}
           />
-          {/* <TextInput name="city" label="city" form={form} /> */}
-          {/* <TextInput name="district" label="district" form={form} /> */}
           <TextInput name="addressDetail" label="addressDetail" form={form} />
           <Button
             color="secondary"
@@ -120,13 +132,14 @@ function Cart() {
         </form>
       </Modal>
       {items.length > 0 && (
-        <Button
+        <LoadingButton
           variant="contained"
           onClick={openModal}
           style={{ margin: "1rem auto", display: "block" }}
+          loading={createMutation.isLoading}
         >
           Order
-        </Button>
+        </LoadingButton>
       )}
     </>
   );

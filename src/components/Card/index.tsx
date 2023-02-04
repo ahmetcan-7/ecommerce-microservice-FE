@@ -69,6 +69,7 @@ const Card = ({ product }: CardProps) => {
           component="img"
           height="200"
           image={product.imageUrl ?? ""}
+          style={{ width: "auto" }}
         />
         <CardContent style={{ width: "100%" }}>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>

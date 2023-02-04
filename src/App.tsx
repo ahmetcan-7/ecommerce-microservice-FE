@@ -12,6 +12,7 @@ import { refreshToken, userMe } from "./store/actions/userAction";
 import { AppState } from "./store";
 import Loader from "./components/Loader";
 import Home from "./pages/Admin/Home";
+import ForgetPassword from "./pages/Login/ForgetPassword";
 
 function App() {
   const dispatch = useDispatch<any>();
@@ -47,6 +48,7 @@ function App() {
           <Route path="/" element={<DashboardLayout />}>
             <Route index element={<Products />} />
             <Route path="login" element={<Login />} />
+            <Route path="forgetPassword" element={<ForgetPassword />} />
             <Route path="register" element={<Register />} />
             <Route
               element={

@@ -69,7 +69,6 @@ function Products() {
   return (
     <>
       <Box>
-        <Typography variant="h4">Products</Typography>
         <Button
           variant="contained"
           onClick={() => navigate("/admin/addEditProduct")}

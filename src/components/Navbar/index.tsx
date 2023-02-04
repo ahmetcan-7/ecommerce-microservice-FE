@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -23,8 +23,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { calculateCountOfCartItems } from "../../utils/cart";
 
 const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Account", "Dashboard", "Logout", "Admin"];
-
+const INITIAL_SETTINGS = ["Profile", "Account", "Dashboard", "Logout"];
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     right: -3,
@@ -37,21 +36,23 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 const Navbar = () => {
   const navigate = useNavigate();
 
-  const {
-    data: user,
-    loading,
-    error,
-  } = useSelector((state: AppState) => state.user);
+  const { data: user, error } = useSelector((state: AppState) => state.user);
+
+  const [settings, setSettings] = useState(INITIAL_SETTINGS);
+
+  useEffect(() => {
+    if (user?.roles?.includes("ROLE_ADMIN")) {
+      setSettings((prev) =>
+        prev.includes("Admin") ? prev : [...prev, "Admin"]
+      );
+    }
+  }, []);
 
   const carts = useSelector((state: AppState) => state.cart);
 
   const dispatch = useDispatch<any>();
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -76,7 +77,7 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     error && showError(error);
   }, [error]);
 

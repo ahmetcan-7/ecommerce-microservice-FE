@@ -63,9 +63,6 @@ function Products() {
 
   return (
     <div>
-      <Typography variant="h2" align="center">
-        Products
-      </Typography>
       <SearchBar
         onChangeSearchValue={setSearchValue}
         searchValue={searchValue}

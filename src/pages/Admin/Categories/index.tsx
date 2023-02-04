@@ -39,9 +39,6 @@ function Categories() {
         alignItems: "center",
       }}
     >
-      <Typography variant="h4" style={{ margin: "0.5rem 0" }}>
-        Categories
-      </Typography>
       <TextField
         id="standard-name"
         label="Category Name"

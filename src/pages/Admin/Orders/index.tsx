@@ -39,7 +39,6 @@ function Orders() {
   };
   return (
     <>
-      <Typography variant="h4">Orders</Typography>
       <TableWithDetail
         rows={orderRows}
         columns={ORDER_COLUMNS}

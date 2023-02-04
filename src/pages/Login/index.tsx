@@ -8,7 +8,7 @@ import { AppState } from "../../store";
 import { login } from "../../store/actions/userAction";
 import { useEffect } from "react";
 import { showSuccess } from "../../utils/showSuccess";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const dispatch = useDispatch<any>();
@@ -42,6 +42,12 @@ function Login() {
           form={form}
           type="password"
         />
+        <Link
+          to="/forgetPassword"
+          style={{ float: "right", margin: "0.3rem 0" }}
+        >
+          Forgot your password?
+        </Link>
         <Button
           color="primary"
           variant="contained"

@@ -21,5 +21,5 @@ export const ORDER_PRODUCT_COLUMNS: readonly Column[] = [
   { id: "city", label: "City" },
   { id: "unitPrice", label: "Unit Price" },
   { id: "quantity", label: "Product Quantity" },
-  { id: "totalPrice", label: "Total Price" },
+  { id: "totalPrice", label: "Subtotal" },
 ];

@@ -8,11 +8,20 @@ import CategoryIcon from "@mui/icons-material/Category";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import HomeIcon from "@mui/icons-material/Home";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
+import {
+  getFromLocalStorage,
+  setToLocalStorage,
+} from "../../utils/localStorage";
 
 function Admin() {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(getFromLocalStorage("admin-nav") ?? 0);
   const navigate = useNavigate();
+
+  const handleChange = (newValue: number) => {
+    setValue(newValue);
+    setToLocalStorage("admin-nav", newValue);
+  };
   return (
     <Box
       sx={{
@@ -27,7 +36,7 @@ function Admin() {
         showLabels
         value={value}
         onChange={(event, newValue) => {
-          setValue(newValue);
+          handleChange(newValue);
         }}
         style={{ position: "fixed", bottom: "0", width: "50%" }}
       >

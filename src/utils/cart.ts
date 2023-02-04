@@ -18,5 +18,5 @@ export const calculateTotalPriceOfOneProduct = (
   unitPrice: number,
   quantity: number
 ) => {
-  return unitPrice * quantity;
+  return Math.round(unitPrice * quantity * 100) / 100;
 };

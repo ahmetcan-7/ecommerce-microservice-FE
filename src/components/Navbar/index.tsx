@@ -21,6 +21,7 @@ import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { calculateCountOfCartItems } from "../../utils/cart";
+import { setToLocalStorage } from "../../utils/localStorage";
 
 const pages = ["Products", "Pricing", "Blog"];
 const INITIAL_SETTINGS = ["Profile", "Account", "Dashboard", "Logout"];
@@ -71,6 +72,7 @@ const Navbar = () => {
         dispatch(logout());
         break;
       case "Admin":
+        setToLocalStorage("admin-nav", 0);
         navigate("/admin");
         break;
     }

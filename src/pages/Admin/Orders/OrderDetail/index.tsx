@@ -1,3 +1,4 @@
+import { Typography } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
@@ -49,9 +50,10 @@ function OrderDetail() {
 
   return (
     <>
-      <h2>Order details</h2>
       <TableWithDetail rows={orderRows} columns={ORDER_PRODUCT_COLUMNS} />
-      <h3>Subtotal :{calculateSubtotal()}</h3>
+      <Typography variant="h4" style={{ marginTop: "1rem" }}>
+        Total: {calculateSubtotal()} TL
+      </Typography>
     </>
   );
 }

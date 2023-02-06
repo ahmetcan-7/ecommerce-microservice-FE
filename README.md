@@ -40,21 +40,21 @@ Back end server
 
 ## Home
 
-<img src="https://i.ibb.co/9sJNGSY/Untitled.png" >
+![Untitled](https://user-images.githubusercontent.com/80100428/216980465-2613e58f-2e09-4b26-83f9-e5a2630b9325.png)
 
 ## Admin
 
 ### Products
 
-<img src="https://i.ibb.co/QHqV1Wb/admin.png" >
+![admin](https://user-images.githubusercontent.com/80100428/216980538-9682a5ae-f4f5-4a9c-b10d-83013c3d036c.png)
 
 ### Product Add
 
-<img src="https://i.ibb.co/DbQzfBs/product-Add.png" >
+![productAdd](https://user-images.githubusercontent.com/80100428/216980599-cd5f00d0-9539-4c28-812b-f447c5b07b1f.png)
 
 ### Categories
 
-<img src="https://i.ibb.co/3C6HXdN/category.png" >
+![category](https://user-images.githubusercontent.com/80100428/216980652-87dc53f4-98ab-4d4e-b6e7-77d5c3ab3175.png)
 
 ### Orders
 
@@ -62,4 +62,4 @@ Back end server
 
 ### Order Detail
 
-<img src="https://i.ibb.co/JR7mTS7/order-Detail.png" >
+![orderDetail](https://user-images.githubusercontent.com/80100428/216980713-92c590a0-3f41-4c31-b246-59f92faaf236.png)

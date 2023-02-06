@@ -37,3 +37,29 @@ npm install or yarn add
 
 Back end server
 <br>Please visit following git repository: `https://github.com/ahmetcan-7/fullstack-ecommerce-microservices`
+
+## Home
+
+<img src="https://i.ibb.co/9sJNGSY/Untitled.png" >
+
+## Admin
+
+### Products
+
+<img src="https://i.ibb.co/QHqV1Wb/admin.png" >
+
+### Product Add
+
+<img src="https://i.ibb.co/DbQzfBs/product-Add.png" >
+
+### Categories
+
+<img src="https://i.ibb.co/3C6HXdN/category.png" >
+
+### Orders
+
+<img src="https://i.ibb.co/Qm2g02G/orders.png" >
+
+### Order Detail
+
+<img src="https://i.ibb.co/JR7mTS7/order-Detail.png" >

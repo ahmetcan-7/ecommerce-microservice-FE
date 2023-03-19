@@ -8,6 +8,7 @@ import { Grid, Typography } from "@material-ui/core";
 import SearchBar from "../../components/SearchBar";
 import { CategoryApi } from "../../api/categoryApi";
 import { Category } from "../../types/category";
+import ProductViewPlaceholder from "../../components/ProductViewPlaceholder";
 
 function Products() {
   const { ref, inView } = useInView();
@@ -62,7 +63,7 @@ function Products() {
   };
 
   return (
-    <div>
+    <>
       <SearchBar
         onChangeSearchValue={setSearchValue}
         searchValue={searchValue}
@@ -72,44 +73,30 @@ function Products() {
         onChangeSortBy={setSortBy}
         categories={categories}
       />
-      {status === "loading" ? (
-        <p>Loading...</p>
-      ) : status === "error" ? (
-        <span>Error: Something went wrong!!</span>
-      ) : (
-        <>
-          {data?.pages.map((page, k) => (
-            <React.Fragment key={k}>
-              <Grid container spacing={2} xs={12}>
-                {page.map((product) => (
-                  <Grid item xs={12} sm={6} md={4} lg={3}>
-                    <Card key={product.id} product={product} />
-                  </Grid>
-                ))}
+      {data?.pages.map((page, k) => (
+        <React.Fragment key={k}>
+          <Grid container spacing={2} xs={12}>
+            {page.map((product) => (
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <Card key={product.id} product={product} />
               </Grid>
-            </React.Fragment>
-          ))}
-          <div>
-            <button
-              ref={ref}
-              onClick={() => fetchNextPage()}
-              disabled={!hasNextPage || isFetchingNextPage}
-            >
-              {isFetchingNextPage
-                ? "Loading more..."
-                : hasNextPage
-                ? "Load Newer"
-                : "Nothing more to load"}
-            </button>
-          </div>
-          <div>
-            {isFetching && !isFetchingNextPage
-              ? "Background Updating..."
-              : null}
-          </div>
-        </>
-      )}
-    </div>
+            ))}
+          </Grid>
+        </React.Fragment>
+      ))}
+      {isFetching && <ProductViewPlaceholder />}
+      <button
+        ref={ref}
+        onClick={() => fetchNextPage()}
+        disabled={!hasNextPage || isFetchingNextPage}
+      >
+        {isFetchingNextPage
+          ? "Loading more..."
+          : hasNextPage
+          ? "Load Newer"
+          : "Nothing more to load"}
+      </button>
+    </>
   );
 }
 

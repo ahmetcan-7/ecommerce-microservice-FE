@@ -31,6 +31,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     top: 13,
     border: `2px solid ${theme.palette.background.paper}`,
     padding: "0 4px",
+    color: "white",
   },
 }));
 
@@ -103,7 +104,7 @@ const Navbar = () => {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
+              style={{ color: "#FAF7ED" }}
             >
               <MenuIcon />
             </IconButton>
@@ -140,16 +141,25 @@ const Navbar = () => {
           </Typography>
           <Box sx={styles.boxMobile}>
             {pages.map((page) => (
-              <Button key={page} onClick={handleCloseNavMenu} sx={styles.btn}>
+              <Button
+                key={page}
+                onClick={handleCloseNavMenu}
+                sx={styles.btn}
+                style={{ color: "#FAF7ED" }}
+              >
                 {page}
               </Button>
             ))}
           </Box>
-          <IconButton aria-label="cart" onClick={() => navigate("/cart")}>
+          <IconButton
+            aria-label="cart"
+            onClick={() => navigate("/cart")}
+            style={{ color: "#014C3E" }}
+          >
             {carts.length > 0 ? (
               <StyledBadge
                 badgeContent={calculateCountOfCartItems(carts)}
-                color="primary"
+                style={{ color: "#014C3E" }}
               >
                 <ShoppingCartIcon sx={{ color: "#FAF7ED" }} />
               </StyledBadge>
@@ -160,7 +170,11 @@ const Navbar = () => {
           {user.isLogedIn ? (
             <Box sx={{ flexGrow: 0, margin: "0 1rem" }}>
               <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <IconButton
+                  onClick={handleOpenUserMenu}
+                  sx={{ p: 0 }}
+                  style={{ color: "#014C3E" }}
+                >
                   <Avatar
                     alt={user.firstName + user.lastName}
                     src="/static/images/avatar/2.jpg"
@@ -211,7 +225,7 @@ const Navbar = () => {
           ) : (
             <Box sx={{ display: "flex" }}>
               <Button
-                color="secondary"
+                style={{ color: "#FAF7ED" }}
                 variant="contained"
                 fullWidth
                 onClick={() => navigate("/login")}
@@ -220,7 +234,7 @@ const Navbar = () => {
                 Login
               </Button>
               <Button
-                color="secondary"
+                style={{ color: "#FAF7ED" }}
                 variant="contained"
                 fullWidth
                 onClick={() => navigate("/register")}

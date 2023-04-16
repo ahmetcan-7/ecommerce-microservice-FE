@@ -9,8 +9,10 @@ import SearchBar from "../../components/SearchBar";
 import { CategoryApi } from "../../api/categoryApi";
 import { Category } from "../../types/category";
 import ProductViewPlaceholder from "../../components/ProductViewPlaceholder";
+import { useNavigate } from "react-router-dom";
 
 function Products() {
+  const navigate = useNavigate();
   const { ref, inView } = useInView();
   const [searchValue, setSearchValue] = useState("");
   const [sortBy, setSortBy] = useState("DATE_DESC");
@@ -78,7 +80,11 @@ function Products() {
           <Grid container spacing={2} xs={12}>
             {page.map((product) => (
               <Grid item xs={12} sm={6} md={4} lg={3}>
-                <Card key={product.id} product={product} />
+                <Card
+                  key={product.id}
+                  product={product}
+                  onClick={() => navigate(`products/${product.id}`)}
+                />
               </Grid>
             ))}
           </Grid>

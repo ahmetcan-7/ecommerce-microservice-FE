@@ -41,12 +41,15 @@ function App() {
   const OrderDetail = React.lazy(
     () => import("./pages/Admin/Orders/OrderDetail")
   );
+  const Product = React.lazy(() => import("./pages/Products/Product"));
+
   return (
     <Router>
       <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/" element={<DashboardLayout />}>
             <Route index element={<Products />} />
+            <Route path="products/:productId" element={<Product />} />
             <Route path="login" element={<Login />} />
             <Route path="forgetPassword" element={<ForgetPassword />} />
             <Route path="register" element={<Register />} />

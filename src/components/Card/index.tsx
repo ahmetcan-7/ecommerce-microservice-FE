@@ -28,9 +28,10 @@ import { Cart } from "../../types/cart";
 import "./style.css";
 type CardProps = {
   product: Product;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-const Card = ({ product }: CardProps) => {
+const Card = ({ product, onClick }: CardProps) => {
   const getCartItemQuantity = (id: string) => {
     const persist = getFromLocalStorage("persist:root");
     const items = JSON.parse(persist.cart) as Cart[];
@@ -62,8 +63,14 @@ const Card = ({ product }: CardProps) => {
     }
   };
 
+  const handleClick = (event: any) => {
+    if (onClick) {
+      onClick(event);
+    }
+  };
+
   return (
-    <MuiCard>
+    <MuiCard onDoubleClick={handleClick}>
       <CardActionArea sx={{ display: "flex", flexDirection: "column" }}>
         <CardMedia
           component="img"

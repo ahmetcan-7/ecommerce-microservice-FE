@@ -1,4 +1,5 @@
 import { Category } from "./category";
+import { Comment } from "./comment";
 export interface ProductParam {
   size: number;
   page: number;
@@ -26,6 +27,7 @@ export interface Product extends BaseProduct {
 export interface ProductAdmin extends BaseProduct {
   createdDate: string;
   category: Category;
+  comments: Comment[];
 }
 export interface ProductForm {
   name: string;

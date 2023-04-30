@@ -1,4 +1,5 @@
 import { PRODUCT_PARAM } from "../constants/product";
+import { Comment } from "../types/comment";
 import { Pagination } from "../types/pagination";
 import {
   Product,
@@ -65,6 +66,14 @@ const updateProduct = async (updateProduct: {
   return data;
 };
 
+const getCommentsByProductId = async (productId: string) => {
+  const { data } = await api.get<Comment[]>(
+    `/v1/products/${productId}/comments`
+  );
+
+  return data;
+};
+
 export const ProductApi = {
   getProducts,
   getProductsByPagination,
@@ -73,4 +82,5 @@ export const ProductApi = {
   saveProduct,
   updateProduct,
   getProductsByIds,
+  getCommentsByProductId,
 };

@@ -5,3 +5,8 @@ export interface Comment {
   text: string;
   creator: string;
 }
+
+export interface CreateCommentRequest {
+  productId: string;
+  text: string;
+}

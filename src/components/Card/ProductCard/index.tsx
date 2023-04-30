@@ -11,28 +11,42 @@ import {
   Box,
 } from "@mui/material";
 import { ProductAdmin } from "../../../types/product";
+import Comments from "../../Comments";
+import { useParams } from "react-router-dom";
+import { useQuery } from "react-query";
+import { ProductApi } from "../../../api/productApi";
 
 type CardProps = {
-  product: ProductAdmin;
+  product: ProductAdmin | undefined;
 };
 
 const ProductCard = ({ product }: CardProps) => {
+  const { productId } = useParams();
+
+  const {
+    data: comments,
+    isLoading,
+    isError,
+  } = useQuery(["products:comments"], () =>
+    ProductApi.getCommentsByProductId(productId ?? "")
+  );
+
   return (
     <MuiCard>
       <CardActionArea sx={{ display: "flex", flexDirection: "column" }}>
         <CardMedia
           component="img"
           height="200"
-          image={product.imageUrl ?? ""}
+          image={product?.imageUrl ?? ""}
           style={{ width: "auto" }}
         />
         <CardContent style={{ width: "100%" }}>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Typography gutterBottom variant="h5" component="div">
-              {product.name}
+              {product?.name}
             </Typography>
             <Typography gutterBottom variant="h5" component="div">
-              {product.unitPrice.toString()} TL
+              {product?.unitPrice?.toString()} TL
             </Typography>
           </Box>
           <Box style={{ height: "3rem" }}>
@@ -41,12 +55,12 @@ const ProductCard = ({ product }: CardProps) => {
               color="text.secondary"
               className="text-ellipsis"
             >
-              {product.description}
+              {product?.description}
             </Typography>
           </Box>
         </CardContent>
       </CardActionArea>
-      <CardActions sx={{ height: "4rem" }}></CardActions>
+      <Comments comments={comments ?? []} />
     </MuiCard>
   );
 };

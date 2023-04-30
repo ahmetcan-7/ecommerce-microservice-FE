@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { useLocation, useParams } from "react-router-dom";
 import { ProductApi } from "../../../api/productApi";
 import ProductCard from "../../../components/Card/ProductCard";
+import { Container } from "@material-ui/core";
 
 function Product() {
   const { productId } = useParams();
@@ -15,6 +16,8 @@ function Product() {
     ProductApi.getProductById(productId ?? "")
   );
 
+  console.log("product", product);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -23,14 +26,12 @@ function Product() {
     return <div>Error fetching data</div>;
   }
 
-  if (!product) {
-    return <div>Data not found</div>;
-  }
-
   return (
     <>
       <div>Product</div>
-      <ProductCard product={product} />
+      <Container maxWidth="md">
+        <ProductCard product={product} />
+      </Container>
     </>
   );
 }

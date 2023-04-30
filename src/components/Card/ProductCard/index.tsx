@@ -13,8 +13,11 @@ import {
 import { ProductAdmin } from "../../../types/product";
 import Comments from "../../Comments";
 import { useParams } from "react-router-dom";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { ProductApi } from "../../../api/productApi";
+import { CommentApi } from "../../../api/comment";
+import { showSuccess } from "../../../utils/showSuccess";
+import { CreateCommentRequest } from "../../../types/comment";
 
 type CardProps = {
   product: ProductAdmin | undefined;
@@ -22,6 +25,7 @@ type CardProps = {
 
 const ProductCard = ({ product }: CardProps) => {
   const { productId } = useParams();
+  const queryClient = useQueryClient();
 
   const {
     data: comments,
@@ -30,6 +34,22 @@ const ProductCard = ({ product }: CardProps) => {
   } = useQuery(["products:comments"], () =>
     ProductApi.getCommentsByProductId(productId ?? "")
   );
+
+  const handleCreateComment = (comment: string) => {
+    const commentRequest = {
+      productId,
+      text: comment,
+    } as CreateCommentRequest;
+
+    createMutation.mutate(commentRequest);
+  };
+
+  const createMutation = useMutation(CommentApi.saveComment, {
+    onSuccess: () => {
+      showSuccess("Comment has been created successfully");
+      queryClient.invalidateQueries("products:comments");
+    },
+  });
 
   return (
     <MuiCard>
@@ -60,7 +80,10 @@ const ProductCard = ({ product }: CardProps) => {
           </Box>
         </CardContent>
       </CardActionArea>
-      <Comments comments={comments ?? []} />
+      <Comments
+        comments={comments ?? []}
+        onCreateComment={handleCreateComment}
+      />
     </MuiCard>
   );
 };

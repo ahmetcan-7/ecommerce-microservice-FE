@@ -28,7 +28,6 @@ function Product() {
 
   return (
     <>
-      <div>Product</div>
       <Container maxWidth="md">
         <ProductCard product={product} />
       </Container>

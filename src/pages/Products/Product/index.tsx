@@ -28,7 +28,7 @@ function Product() {
 
   return (
     <>
-      <Container maxWidth="md">
+      <Container maxWidth="md" style={{ marginTop: "1rem" }}>
         <ProductCard product={product} />
       </Container>
     </>

@@ -4,7 +4,7 @@ import { useInView } from "react-intersection-observer";
 import { ProductApi } from "../../api/productApi";
 import { PRODUCT_PARAM } from "../../constants/product";
 import Card from "../../components/Card";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import SearchBar from "../../components/SearchBar";
 import { CategoryApi } from "../../api/categoryApi";
 import { Category } from "../../types/category";
@@ -21,35 +21,28 @@ function Products() {
   const [categories, setCategories] = useState<Category[]>([]);
 
   const [searchTerm, setSearchTerm] = useState("");
-  // const searchTerm = searchValue.length >= 3 ? searchValue : "";
 
-  const {
-    status,
-    data,
-    isFetching,
-    isFetchingNextPage,
-    fetchNextPage,
-    hasNextPage,
-  } = useInfiniteQuery(
-    ["projects", searchTerm, sortBy, filter],
-    ({ pageParam = 0 }) =>
-      ProductApi.getProducts({
-        ...PRODUCT_PARAM,
-        page: pageParam,
-        searchTerm: searchTerm,
-        sort: sortBy,
-        filter: filter,
-      }),
-    {
-      getNextPageParam: (lastGroup, allGroups) => {
-        const morePageExist = lastGroup?.length === PRODUCT_PARAM.size;
+  const { data, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useInfiniteQuery(
+      ["projects", searchTerm, sortBy, filter],
+      ({ pageParam = 0 }) =>
+        ProductApi.getProducts({
+          ...PRODUCT_PARAM,
+          page: pageParam,
+          searchTerm: searchTerm,
+          sort: sortBy,
+          filter: filter,
+        }),
+      {
+        getNextPageParam: (lastGroup, allGroups) => {
+          const morePageExist = lastGroup?.length === PRODUCT_PARAM.size;
 
-        if (!morePageExist) return;
+          if (!morePageExist) return;
 
-        return allGroups?.length;
-      },
-    }
-  );
+          return allGroups?.length;
+        },
+      }
+    );
 
   useEffect(() => {
     if (inView) {

@@ -25,6 +25,7 @@ function Comments({ comments, onCreateComment }: CommentsProps) {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          marginTop: "2rem",
         }}
       >
         <Typography variant="h4" component="h2" style={{ marginLeft: "1rem" }}>

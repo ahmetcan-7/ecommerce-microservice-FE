@@ -13,6 +13,7 @@ interface ModalProps {
   title: string;
   disableBtn?: boolean;
   children: React.ReactNode;
+  onClose?: () => void;
 }
 export default function Modal({
   open,
@@ -21,9 +22,11 @@ export default function Modal({
   title,
   disableBtn = false,
   children,
+  onClose,
 }: ModalProps) {
   const handleClose = () => {
     setOpen(false);
+    onClose?.();
   };
 
   const handleOpen = () => {

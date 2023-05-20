@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useInfiniteQuery } from "react-query";
 import { useInView } from "react-intersection-observer";
 import { ProductApi } from "../../api/productApi";
@@ -10,6 +10,7 @@ import { CategoryApi } from "../../api/categoryApi";
 import { Category } from "../../types/category";
 import ProductViewPlaceholder from "../../components/ProductViewPlaceholder";
 import { useNavigate } from "react-router-dom";
+import debounce from "lodash.debounce";
 
 function Products() {
   const navigate = useNavigate();
@@ -19,7 +20,8 @@ function Products() {
   const [filter, setFilter] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
 
-  const searchTerm = searchValue.length >= 3 ? searchValue : "";
+  const [searchTerm, setSearchTerm] = useState("");
+  // const searchTerm = searchValue.length >= 3 ? searchValue : "";
 
   const {
     status,
@@ -59,6 +61,16 @@ function Products() {
     getAllCategories();
   }, []);
 
+  const delayedSearchTerm = useCallback(
+    debounce((q) => setSearchTerm(q), 500),
+    []
+  );
+
+  const handleChangeSearchValue = (value: string) => {
+    setSearchValue(value);
+    delayedSearchTerm(value);
+  };
+
   const getAllCategories = async () => {
     const categories = await CategoryApi.getCategories();
     setCategories(categories);
@@ -67,7 +79,7 @@ function Products() {
   return (
     <>
       <SearchBar
-        onChangeSearchValue={setSearchValue}
+        onChangeSearchValue={handleChangeSearchValue}
         searchValue={searchValue}
         filter={filter}
         onChangeFilter={setFilter}

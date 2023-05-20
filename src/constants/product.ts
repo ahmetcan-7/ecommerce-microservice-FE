@@ -1,7 +1,7 @@
 import { ProductAdminParam, ProductParam } from "../types/product";
 
 export const PRODUCT_PARAM: ProductParam = {
-  size: 4,
+  size: 8,
   page: 0,
   filter: "",
   sort: "DATE_DESC",

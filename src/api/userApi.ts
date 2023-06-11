@@ -1,4 +1,5 @@
-import { UserCredentials } from "../types/user";
+import { ProfileForm } from "../types/profile";
+import { Login, UserCredentials } from "../types/user";
 import { api } from "./axios";
 
 const getUserById = async (customerId: string) => {
@@ -16,7 +17,13 @@ const resetPassword = async (gmail: string) => {
   return data;
 };
 
+const updateUser = async (profile: ProfileForm) => {
+  const { data } = await api.put<Login>(`/user/update`, profile);
+  return data;
+};
+
 export const UserApi = {
   getUserById,
   resetPassword,
+  updateUser,
 };

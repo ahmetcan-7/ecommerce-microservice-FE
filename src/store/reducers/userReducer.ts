@@ -17,6 +17,12 @@ const userReducer = (state: UserState = defaultState, action: UserAction) => {
         loading: false,
         data: { ...state.data, isLogedIn: true } as UserReducer,
       };
+    case "UPDATE_PROFILE":
+    case "UPDATE_PROFILE_IMAGE":
+      return {
+        ...state,
+        data: { ...state.data, ...action.payload, isLogedIn: true },
+      };
     case "USER_SUCCESS":
       return {
         ...state,

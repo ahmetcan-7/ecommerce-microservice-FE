@@ -72,6 +72,9 @@ const Navbar = () => {
       case "Logout":
         dispatch(logout());
         break;
+      case "Profile":
+        navigate(`/profile/${user.userId}`);
+        break;
       case "Admin":
         setToLocalStorage("admin-nav", 0);
         navigate("/admin");
@@ -182,8 +185,8 @@ const Navbar = () => {
                     alt={user.firstName + user.lastName}
                     src="/static/images/avatar/2.jpg"
                   >
-                    {user.firstName.at(0)?.toUpperCase()! +
-                      user.lastName.at(0)?.toUpperCase()}
+                    {user.firstName?.at(0)?.toUpperCase()! +
+                      user.lastName?.at(0)?.toUpperCase()}
                   </Avatar>
                 </IconButton>
               </Tooltip>

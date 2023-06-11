@@ -13,6 +13,7 @@ import { AppState } from "./store";
 import Loader from "./components/Loader";
 import Home from "./pages/Admin/Home";
 import ForgetPassword from "./pages/Login/ForgetPassword";
+import Profile from "./pages/Profile";
 
 function App() {
   const dispatch = useDispatch<any>();
@@ -79,6 +80,7 @@ function App() {
               }
             >
               <Route path="cart" element={<Cart />} />
+              <Route path="profile/:id" element={<Profile />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />

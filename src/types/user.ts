@@ -1,5 +1,6 @@
 import { ThunkDispatch } from "redux-thunk";
 import { State } from "./state";
+import { UPDATE_PROFILE, UPDATE_PROFILE_IMAGE } from "./profile";
 
 export interface User {
   userId: string;
@@ -7,6 +8,7 @@ export interface User {
   firstName: string;
   lastName: string;
   roles: string[];
+  profileImageURL?: string;
 }
 
 export interface UserCredentials {
@@ -86,7 +88,9 @@ export type UserAction =
   | USER_START
   | USER_SUCCESS
   | USER_ERROR
-  | REFRESHTOKEN_ERROR;
+  | REFRESHTOKEN_ERROR
+  | UPDATE_PROFILE
+  | UPDATE_PROFILE_IMAGE;
 
 export type UserState = State<UserReducer>;
 

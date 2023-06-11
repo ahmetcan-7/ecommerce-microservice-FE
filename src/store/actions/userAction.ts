@@ -9,6 +9,7 @@ import {
   UserDispatch,
 } from "../../types/user";
 import { removeToken, setToken } from "../../utils/token";
+import { ProfileForm, ProfileImage } from "../../types/profile";
 
 export const login = (creds: LoginForm) => async (dispatch: UserDispatch) => {
   dispatch({ type: "LOGIN_START" });
@@ -62,3 +63,14 @@ export const refreshToken = () => async (dispatch: UserDispatch) => {
     }
   }
 };
+
+export const updateProfile =
+  (res: Login, user: ProfileForm) => async (dispatch: UserDispatch) => {
+    setToken(res);
+    dispatch({ type: "UPDATE_PROFILE", payload: user });
+  };
+
+export const updateProfileImage =
+  (profileImage: ProfileImage) => async (dispatch: UserDispatch) => {
+    dispatch({ type: "UPDATE_PROFILE_IMAGE", payload: profileImage });
+  };

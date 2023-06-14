@@ -49,8 +49,18 @@ function Account() {
           marginTop: "1rem",
         }}
       >
-        <TextInput name="currentPassword" label="currentPassword" form={form} />
-        <TextInput name="newPassword" label="newPassword" form={form} />
+        <TextInput
+          name="currentPassword"
+          label="currentPassword"
+          type="password"
+          form={form}
+        />
+        <TextInput
+          name="newPassword"
+          label="newPassword"
+          type="password"
+          form={form}
+        />
         <LoadingButton
           color="primary"
           variant="contained"

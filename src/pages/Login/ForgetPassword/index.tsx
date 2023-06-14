@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserApi } from "../../../api/userApi";
 import { showSuccess } from "../../../utils/showSuccess";
+import { showError } from "../../../utils/showError";
 
 function ForgetPassword() {
   const navigate = useNavigate();
@@ -15,11 +16,11 @@ function ForgetPassword() {
   const resetPassword = async () => {
     try {
       await UserApi.resetPassword(value);
+      showSuccess("New password sent please check your e-mail");
+      navigate("/login");
     } catch (e: any) {
-      if (e?.response?.status) {
-        showSuccess("new password sent please check your mail!");
-        navigate("/login");
-      }
+      const res = e.response?.data?.message as string;
+      showError(res);
     }
   };
 

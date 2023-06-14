@@ -23,8 +23,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { calculateCountOfCartItems } from "../../utils/cart";
 import { setToLocalStorage } from "../../utils/localStorage";
 
-const pages = ["Products", "Pricing", "Blog"];
-const INITIAL_SETTINGS = ["Profile", "Account", "Dashboard", "Logout"];
+const INITIAL_SETTINGS = ["Profile", "Account", "Logout"];
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     right: -3,
@@ -75,6 +74,9 @@ const Navbar = () => {
       case "Profile":
         navigate(`/profile/${user.userId}`);
         break;
+      case "Account":
+        navigate("/account");
+        break;
       case "Admin":
         setToLocalStorage("admin-nav", 0);
         navigate("/admin");
@@ -100,7 +102,7 @@ const Navbar = () => {
             onClick={() => navigate("/")}
             sx={styles.header}
           >
-            LOGO
+            CANO
           </Typography>
 
           <Box sx={styles.box}>
@@ -129,13 +131,7 @@ const Navbar = () => {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={styles.menu}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+            ></Menu>
           </Box>
           <Typography
             variant="h5"
@@ -143,20 +139,9 @@ const Navbar = () => {
             onClick={() => navigate("/")}
             sx={styles.headerMobile}
           >
-            LOGO
+            CANO
           </Typography>
-          <Box sx={styles.boxMobile}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={styles.btn}
-                style={{ color: "#FAF7ED" }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
+          <Box sx={styles.boxMobile}></Box>
           <IconButton
             aria-label="cart"
             onClick={() => navigate("/cart")}
@@ -183,7 +168,7 @@ const Navbar = () => {
                 >
                   <Avatar
                     alt={user.firstName + user.lastName}
-                    src="/static/images/avatar/2.jpg"
+                    src={user.profileImageURL ?? ""}
                   >
                     {user.firstName?.at(0)?.toUpperCase()! +
                       user.lastName?.at(0)?.toUpperCase()}

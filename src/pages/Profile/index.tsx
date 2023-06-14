@@ -63,8 +63,6 @@ function Profile() {
     },
   });
 
-  console.log("user", user);
-
   return (
     <form onSubmit={form.handleSubmit}>
       <Container

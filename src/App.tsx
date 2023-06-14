@@ -14,6 +14,7 @@ import Loader from "./components/Loader";
 import Home from "./pages/Admin/Home";
 import ForgetPassword from "./pages/Login/ForgetPassword";
 import Profile from "./pages/Profile";
+import Account from "./pages/Account";
 
 function App() {
   const dispatch = useDispatch<any>();
@@ -43,6 +44,7 @@ function App() {
     () => import("./pages/Admin/Orders/OrderDetail")
   );
   const Product = React.lazy(() => import("./pages/Products/Product"));
+  // const Profile = React.lazy(() => import("./pages/Profile"));
 
   return (
     <Router>
@@ -81,6 +83,7 @@ function App() {
             >
               <Route path="cart" element={<Cart />} />
               <Route path="profile/:id" element={<Profile />} />
+              <Route path="account" element={<Account />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />

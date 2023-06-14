@@ -1,3 +1,4 @@
+import { AccountForm } from "../types/account";
 import { ProfileForm } from "../types/profile";
 import { Login, UserCredentials } from "../types/user";
 import { api } from "./axios";
@@ -22,8 +23,14 @@ const updateUser = async (profile: ProfileForm) => {
   return data;
 };
 
+const updatePassword = async (account: AccountForm) => {
+  const { data } = await api.put<Login>(`/user/updatePassword`, account);
+  return data;
+};
+
 export const UserApi = {
   getUserById,
   resetPassword,
   updateUser,
+  updatePassword,
 };
